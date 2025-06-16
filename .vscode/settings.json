@@ -1,0 +1,6 @@
+{
+	"C_Cpp.default.compilerPath": "C:/tool/Android-NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe",
+	"files.associations": {
+		"iostream": "cpp"
+	}
+}
