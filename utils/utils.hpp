@@ -15,12 +15,21 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+<<<<<<< HEAD
 using namespace std;
 
 #define CORE_COUNT 8
 
 class Utils{
 public:
+=======
+#include <sys/inotify.h> 
+using namespace std;
+
+#define CORE_COUNT 8
+class Utils{
+protected:
+>>>>>>> 8fe1e18 (Update)
     const char * logpath = "/storage/emulated/0/Android/SZE_NEXT/log.txt";
 
 public:

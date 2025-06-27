@@ -6,6 +6,10 @@
 #include "../tool/mods.hpp"
 #include "utils.hpp"
 #include "unistd.h"
+<<<<<<< HEAD
+=======
+#include <sys/inotify.h>
+>>>>>>> 8fe1e18 (Update)
 using namespace std;
 class SZENEXT {
 public:
@@ -13,6 +17,7 @@ public:
     Utils utils;
     Rconfig config;
     MODS mods;
+<<<<<<< HEAD
 
     int OC;
 
@@ -35,11 +40,43 @@ public:
     void PDMODS(){
         config.ReadConfig();
         while (1)
+=======
+    int OC;
+    const char * configfile = "/storage/emulated/0/Android/SZE_NEXT/config.txt";
+
+    int fd = inotify_init();
+    int wd = inotify_add_watch(fd, configfile, IN_MODIFY);
+    char buff[1024];
+
+
+    void Readx(){
+        config.ReadConfig();
+        while (1) {
+            int len = read(fd, buff, sizeof(buff));
+            for (char * i = buff; i < buff + len;) {
+                auto *eve= reinterpret_cast<inotify_event*>(i);
+                if (eve -> mask & IN_MODIFY) {
+                    ifstream file = mods.GETC();
+                    string modss;
+                    while (getline(file,modss))
+                    {
+                        Mods = std::move(modss);
+                    }
+                    PDMODS();
+                }
+                i += sizeof(inotify_event) + eve->len;
+            }
+        }
+    }
+
+    void PDMODS(){
+>>>>>>> 8fe1e18 (Update)
         {
             
             if (Mods == "powersave")
             {
 
+<<<<<<< HEAD
                 if (OC >= *config.POW_BOOST_OC)
                 {
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.POW_BOOST_MINCORE);
@@ -53,6 +90,11 @@ public:
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.POW_MIDCORE);
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.POW_BIGCORE);
                 }
+=======
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.POW_MINCORE);
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.POW_MIDCORE);
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.POW_BIGCORE);
+>>>>>>> 8fe1e18 (Update)
                 
                 if (Mods != Mtemp)
                 {
@@ -66,6 +108,7 @@ public:
 
             else if(Mods == "balance")
             {
+<<<<<<< HEAD
                 if (OC >= *config.BAN_BOOST_OC)
                 {
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.BAN_BOOST_MINCORE);
@@ -79,6 +122,14 @@ public:
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.BAN_MIDCORE);
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.BAN_BIGCORE);
                 }
+=======
+
+                
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.BAN_MINCORE);
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.BAN_MIDCORE);
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.BAN_BIGCORE);
+                
+>>>>>>> 8fe1e18 (Update)
                 
 
                 if (Mods != Mtemp)
@@ -93,6 +144,7 @@ public:
 
             else if (Mods == "performace")
             {
+<<<<<<< HEAD
                 if (OC >= *config.PER_BOOST_OC)
                 {
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.PER_BOOST_MINCORE);
@@ -106,6 +158,13 @@ public:
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.PER_MIDCORE);
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.PER_BIGCORE);
                 }
+=======
+                
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.PER_MINCORE);
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.PER_MIDCORE);
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.PER_BIGCORE);
+                
+>>>>>>> 8fe1e18 (Update)
 
                 if (Mods != Mtemp)
                 {
@@ -118,6 +177,7 @@ public:
 
             else if (Mods == "fast")
             {
+<<<<<<< HEAD
                 if (OC >= *config.FAS_BOOST_OC)
                 {
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.FAS_BOOST_MINCORE);
@@ -131,6 +191,11 @@ public:
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.FAS_MIDCORE);
                     utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.FAS_BIGCORE);
                 }
+=======
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.FAS_MINCORE);
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.FAS_MIDCORE);
+                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.FAS_BIGCORE);
+>>>>>>> 8fe1e18 (Update)
             
                 if (Mods != Mtemp)
                 {
@@ -153,8 +218,11 @@ public:
             auto c2 = utils.readCpuStats();
             OC = utils.calculateTotalCpuLoad(c1,c2);
         }
+<<<<<<< HEAD
         
         
+=======
+>>>>>>> 8fe1e18 (Update)
     }
 
 
