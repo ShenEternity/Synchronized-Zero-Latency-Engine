@@ -31,7 +31,12 @@ public:
     int* FAS_MINCORE = nullptr;
     int* FAS_MIDCORE = nullptr;
     int* FAS_BIGCORE = nullptr;
-    int* POW_BOOST_MINCORE = nullptr;
+
+    int* policynum = nullptr;
+    string* MINpolicy = nullptr;
+    string* MIDpolicy = nullptr;
+    string* BIGpolicy = nullptr;
+/*     int* POW_BOOST_MINCORE = nullptr;
     int* POW_BOOST_MIDCORE = nullptr;
     int* POW_BOOST_BIGCORE = nullptr;
 
@@ -50,7 +55,7 @@ public:
     int* POW_BOOST_OC = nullptr;
     int* BAN_BOOST_OC = nullptr;
     int* PER_BOOST_OC = nullptr;
-    int* FAS_BOOST_OC = nullptr;
+    int* FAS_BOOST_OC = nullptr; */
 
     ~Rconfig(){
         delete POW_MINCORE;
@@ -65,7 +70,12 @@ public:
         delete FAS_MINCORE;
         delete FAS_MIDCORE;
         delete FAS_BIGCORE;
-        delete POW_BOOST_MINCORE;
+
+        delete policynum;
+        delete MIDpolicy;
+        delete MINpolicy;
+        delete BIGpolicy;
+/*         delete POW_BOOST_MINCORE;
         delete POW_BOOST_MIDCORE;
         delete POW_BOOST_BIGCORE;
         delete BAN_BOOST_MINCORE;
@@ -80,7 +90,7 @@ public:
         delete POW_BOOST_OC;
         delete BAN_BOOST_OC;
         delete PER_BOOST_OC;
-        delete FAS_BOOST_OC;
+        delete FAS_BOOST_OC; */
 
     }
 
@@ -110,7 +120,11 @@ public:
             PER_BIGCORE = new int(config["performace"]["FREQ"]["BIGCORE"]);
             FAS_BIGCORE = new int(config ["fast"]["FREQ"]["BIGCORE"]);
 
-            POW_BOOST_MINCORE = new int(config["powersave"]["BOOST"]["MINCORE"]);
+            policynum = new int(config["Policy"]["policynum"]);
+            MINpolicy = new string(config["Policy"]["policy"]["policy1"]);
+            MIDpolicy = new string(config["Policy"]["policy"]["policy2"]);
+            BIGpolicy = new string(config["Policy"]["policy"]["policy3"]);
+/*             POW_BOOST_MINCORE = new int(config["powersave"]["BOOST"]["MINCORE"]);
             POW_BOOST_MIDCORE = new int(config["powersave"]["BOOST"]["MIDCORE"]);
             POW_BOOST_BIGCORE = new int(config["powersave"]["BOOST"]["BIGCORE"]);
 
@@ -130,7 +144,7 @@ public:
             BAN_BOOST_OC = new int(config["balance"]["BOOST"]["OC"]);
             PER_BOOST_OC = new int(config["performace"]["BOOST"]["OC"]);
             FAS_BOOST_OC = new int(config["fast"]["BOOST"]["OC"]);
-
+ */
 
         }else{
             utils.log("配置文件不存在！");
@@ -164,7 +178,7 @@ public:
         cout << *FAS_MINCORE <<endl;
         cout << *FAS_MIDCORE <<endl;
         cout << *FAS_BIGCORE <<endl;
-        cout << *POW_BOOST_MINCORE <<endl;
+/*         cout << *POW_BOOST_MINCORE <<endl;
         cout << *POW_BOOST_MIDCORE <<endl;
         cout << *POW_BOOST_BIGCORE <<endl;
         cout << *BAN_BOOST_MINCORE <<endl;
@@ -179,7 +193,7 @@ public:
         cout << *POW_BOOST_OC <<endl;
         cout << *BAN_BOOST_OC <<endl;
         cout << *PER_BOOST_OC <<endl;
-        cout << *FAS_BOOST_OC <<endl;
+        cout << *FAS_BOOST_OC <<endl; */
 
 
     }

@@ -6,10 +6,8 @@
 #include "../tool/mods.hpp"
 #include "utils.hpp"
 #include "unistd.h"
-<<<<<<< HEAD
-=======
+#include <string>
 #include <sys/inotify.h>
->>>>>>> 8fe1e18 (Update)
 using namespace std;
 class SZENEXT {
 public:
@@ -17,30 +15,6 @@ public:
     Utils utils;
     Rconfig config;
     MODS mods;
-<<<<<<< HEAD
-
-    int OC;
-
-    void Read(){
-        while (1)
-        {
-            sleep(1);
-            ifstream file = mods.GETC();
-            string modss;
-            while (getline(file,modss))
-            {
-                Mods = move(modss);
-            }
-            cout << "READMODS" << endl;
-        }
-        
-        
-    }
-
-    void PDMODS(){
-        config.ReadConfig();
-        while (1)
-=======
     int OC;
     const char * configfile = "/storage/emulated/0/Android/SZE_NEXT/config.txt";
 
@@ -69,38 +43,26 @@ public:
         }
     }
 
+    string GETFreqPath(string* policy){
+        return "/sys/devices/system/cpu/cpufreq/policy" + *policy + "/scaling_max_freq";
+    }
+
+    string GETGovernorPath(string* policy,string* gover, string* path){
+        return "/sys/devices/system/cpu/cpufreq/policy/" + *policy + *gover + "/" + *path;
+    }
+
+
     void PDMODS(){
->>>>>>> 8fe1e18 (Update)
-        {
-            
             if (Mods == "powersave")
             {
 
-<<<<<<< HEAD
-                if (OC >= *config.POW_BOOST_OC)
-                {
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.POW_BOOST_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.POW_BOOST_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.POW_BOOST_BIGCORE);
-                    utils.log(("CPU占用超" + to_string(*config.POW_BOOST_OC) + "  BOOST").c_str());
-                }
-                else
-                {
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.POW_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.POW_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.POW_BIGCORE);
-                }
-=======
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.POW_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.POW_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.POW_BIGCORE);
->>>>>>> 8fe1e18 (Update)
-                
+                    utils.Writer(GETFreqPath(config.MINpolicy),*config.POW_MINCORE);
+                    utils.Writer(GETFreqPath(config.MIDpolicy),*config.POW_MIDCORE);
+                    utils.Writer(GETFreqPath(config.BIGpolicy),*config.POW_BIGCORE);
+
                 if (Mods != Mtemp)
-                {
-                    
+                { 
                     utils.log(("INFO:"+Mods+"模式启动").c_str());
-                    cout << "pow" << endl;
                     Mtemp = Mods;
                 }
             
@@ -108,68 +70,28 @@ public:
 
             else if(Mods == "balance")
             {
-<<<<<<< HEAD
-                if (OC >= *config.BAN_BOOST_OC)
-                {
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.BAN_BOOST_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.BAN_BOOST_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.BAN_BOOST_BIGCORE);
-                    utils.log(("CPU占用超" + to_string(*config.BAN_BOOST_OC) + "  BOOST").c_str());
-                }
-                else
-                {
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.BAN_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.BAN_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.BAN_BIGCORE);
-                }
-=======
 
-                
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.BAN_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.BAN_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.BAN_BIGCORE);
-                
->>>>>>> 8fe1e18 (Update)
-                
+                    utils.Writer(GETFreqPath(config.MINpolicy),*config.BAN_MINCORE);
+                    utils.Writer(GETFreqPath(config.MIDpolicy),*config.BAN_MIDCORE);
+                    utils.Writer(GETFreqPath(config.BIGpolicy),*config.BAN_BIGCORE);
 
                 if (Mods != Mtemp)
                 {
-                    
-                    cout << "ban" << endl;
                     utils.log(("INFO:"+Mods+"模式启动").c_str());
                     Mtemp = Mods;
                 }
 
             }
 
-            else if (Mods == "performace")
+            else if (Mods == "performance")
             {
-<<<<<<< HEAD
-                if (OC >= *config.PER_BOOST_OC)
-                {
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.PER_BOOST_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.PER_BOOST_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.PER_BOOST_BIGCORE);
-                    utils.log(("CPU占用超" + to_string(*config.PER_BOOST_OC) + "  BOOST").c_str());
-                }
-                else
-                {
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.PER_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.PER_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.PER_BIGCORE);
-                }
-=======
                 
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.PER_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.PER_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.PER_BIGCORE);
-                
->>>>>>> 8fe1e18 (Update)
+                    utils.Writer(GETFreqPath(config.MINpolicy),*config.PER_MINCORE);
+                    utils.Writer(GETFreqPath(config.MIDpolicy),*config.PER_MIDCORE);
+                    utils.Writer(GETFreqPath(config.BIGpolicy),*config.PER_BIGCORE);
 
                 if (Mods != Mtemp)
                 {
-                    
-                    cout << "ban" << endl;
                     utils.log(("INFO:"+Mods+"模式启动").c_str());
                     Mtemp = Mods;
                 }
@@ -177,36 +99,16 @@ public:
 
             else if (Mods == "fast")
             {
-<<<<<<< HEAD
-                if (OC >= *config.FAS_BOOST_OC)
-                {
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.FAS_BOOST_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.FAS_BOOST_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.FAS_BOOST_BIGCORE);
-                    utils.log(("CPU占用超" + to_string(*config.FAS_BOOST_OC) + "  BOOST").c_str());
-                }
-                else
-                {
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.FAS_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.FAS_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.FAS_BIGCORE);
-                }
-=======
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",*config.FAS_MINCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",*config.FAS_MIDCORE);
-                    utils.Writer("/sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq",*config.FAS_BIGCORE);
->>>>>>> 8fe1e18 (Update)
-            
+                    utils.Writer(GETFreqPath(config.MINpolicy),*config.FAS_MINCORE);
+                    utils.Writer(GETFreqPath(config.MIDpolicy),*config.FAS_MIDCORE);
+                    utils.Writer(GETFreqPath(config.BIGpolicy),*config.FAS_BIGCORE);
+
                 if (Mods != Mtemp)
                 {
-                    
-                    cout << "ban" << endl;
                     utils.log(("INFO:"+Mods+"模式启动").c_str());
                     Mtemp = Mods;
                 }
             }
-            sleep(2);
-        }
     }
 
 
@@ -218,11 +120,6 @@ public:
             auto c2 = utils.readCpuStats();
             OC = utils.calculateTotalCpuLoad(c1,c2);
         }
-<<<<<<< HEAD
-        
-        
-=======
->>>>>>> 8fe1e18 (Update)
     }
 
 
