@@ -4,8 +4,8 @@ int main(){
     Utils utils;
     SZENEXT sze;
     utils.clearLog();
-    sze.iniit();
-    std::thread re (&SZENEXT::Readx,&sze); 
+    sze.init();
+    std::thread re (&SZENEXT::Readx,&sze);
     re.join();
 /*     Rconfig config;
 

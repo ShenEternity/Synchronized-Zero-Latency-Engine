@@ -23,44 +23,31 @@ public:
     int* POW_MIDCORE = nullptr;
     int* POW_BIGCORE = nullptr;
     int* POW_EBIGCORE = nullptr;
+
     int* BAN_MINCORE = nullptr;
     int* BAN_MIDCORE = nullptr;
     int* BAN_BIGCORE = nullptr;
     int* BAN_EBIGCORE = nullptr;
+
     int* PER_MINCORE = nullptr;
     int* PER_MIDCORE = nullptr;
     int* PER_BIGCORE = nullptr;
     int* PER_EBIGCORE = nullptr;
+
     int* FAS_MINCORE = nullptr;
     int* FAS_MIDCORE = nullptr;
     int* FAS_BIGCORE = nullptr;
     int* FAS_EBIGCORE = nullptr;
 
-    int policynum;
+    int* policynum = nullptr;
     string* MINpolicy = nullptr;
     string* MIDpolicy = nullptr;
     string* BIGpolicy = nullptr;
     string* EBIGpolicy = nullptr;
-/*     int* POW_BOOST_MINCORE = nullptr;
-    int* POW_BOOST_MIDCORE = nullptr;
-    int* POW_BOOST_BIGCORE = nullptr;
 
-    int* BAN_BOOST_MINCORE = nullptr;
-    int* BAN_BOOST_MIDCORE = nullptr;
-    int* BAN_BOOST_BIGCORE = nullptr;
+    
 
-    int* PER_BOOST_MINCORE = nullptr;
-    int* PER_BOOST_MIDCORE = nullptr;
-    int* PER_BOOST_BIGCORE = nullptr;
 
-    int* FAS_BOOST_MINCORE = nullptr;
-    int* FAS_BOOST_MIDCORE = nullptr;
-    int* FAS_BOOST_BIGCORE = nullptr;
-
-    int* POW_BOOST_OC = nullptr;
-    int* BAN_BOOST_OC = nullptr;
-    int* PER_BOOST_OC = nullptr;
-    int* FAS_BOOST_OC = nullptr; */
 
     ~Rconfig(){
         delete POW_MINCORE;
@@ -105,14 +92,16 @@ public:
 
 
 public:
-    int ReadPnum(){
+    void ReadPnum(){
         ifstream file(ConfigPath);
         if (file.is_open()) {
             json config;
             file >> config;
-            policynum = config["Policy"]["policynum"];
+            policynum = new int(config["Policy"]["policynum"]);
         }
-        return -1;
+        else{
+            utils.log("配置文件不存在！");
+        }
     }
 
     void ReadConfig(){
@@ -134,22 +123,22 @@ public:
 
             MINpolicy = new string(config["Policy"]["policy"]["policy1"]);
             MIDpolicy = new string(config["Policy"]["policy"]["policy2"]);
-            if (policynum == 3) {
+            if (*policynum == 3) {
 
                 BIGpolicy = new string(config["Policy"]["policy"]["policy3"]);
-                POW_MIDCORE = new int(config["powersave"]["FREQ"]["MIDCORE"]);
-                BAN_MIDCORE = new int(config["balance"]["FREQ"]["MIDCORE"]);
-                PER_MIDCORE = new int(config["performace"]["FREQ"]["MIDCORE"]);
-                FAS_MIDCORE = new int(config ["fast"]["FREQ"]["MIDCORE"]);
+                POW_BIGCORE = new int(config["powersave"]["FREQ"]["BIGCORE"]);
+                BAN_BIGCORE = new int(config["balance"]["FREQ"]["BIGCORE"]);
+                PER_BIGCORE = new int(config["performace"]["FREQ"]["BIGCORE"]);
+                FAS_BIGCORE = new int(config ["fast"]["FREQ"]["BIGCORE"]);
             }
 
-            else if (policynum == 4) {
+            else if (*policynum == 4) {
                 BIGpolicy = new string(config["Policy"]["policy"]["policy3"]);
                 EBIGpolicy = new string(config["Policy"]["policy"]["policy4"]);
-                POW_MIDCORE = new int(config["powersave"]["FREQ"]["MIDCORE"]);
-                BAN_MIDCORE = new int(config["balance"]["FREQ"]["MIDCORE"]);
-                PER_MIDCORE = new int(config["performace"]["FREQ"]["MIDCORE"]);
-                FAS_MIDCORE = new int(config ["fast"]["FREQ"]["MIDCORE"]);
+                POW_BIGCORE = new int(config["powersave"]["FREQ"]["BIGCORE"]);
+                BAN_BIGCORE = new int(config["balance"]["FREQ"]["BIGCORE"]);
+                PER_BIGCORE = new int(config["performace"]["FREQ"]["BIGCORE"]);
+                FAS_BIGCORE = new int(config ["fast"]["FREQ"]["BIGCORE"]);
                 
                 POW_EBIGCORE = new int(config["powersave"]["FREQ"]["EBIGCORE"]);
                 BAN_EBIGCORE = new int(config["balance"]["FREQ"]["EBIGCORE"]);
@@ -203,32 +192,44 @@ public:
         cout << Out << endl;
         cout << *POW_MINCORE <<endl;
         cout << *POW_MIDCORE <<endl;
-        cout << *POW_BIGCORE <<endl;
+
         cout << *BAN_MINCORE <<endl;
         cout << *BAN_MIDCORE <<endl;
-        cout << *BAN_BIGCORE <<endl;
+
         cout << *PER_MINCORE <<endl;
         cout << *PER_MIDCORE <<endl;
-        cout << *PER_BIGCORE <<endl;
+
         cout << *FAS_MINCORE <<endl;
         cout << *FAS_MIDCORE <<endl;
-        cout << *FAS_BIGCORE <<endl;
-/*         cout << *POW_BOOST_MINCORE <<endl;
-        cout << *POW_BOOST_MIDCORE <<endl;
-        cout << *POW_BOOST_BIGCORE <<endl;
-        cout << *BAN_BOOST_MINCORE <<endl;
-        cout << *BAN_BOOST_MIDCORE <<endl;
-        cout << *BAN_BOOST_BIGCORE <<endl;
-        cout << *PER_BOOST_MINCORE <<endl;
-        cout << *PER_BOOST_MIDCORE <<endl;
-        cout << *PER_BOOST_BIGCORE <<endl;
-        cout << *FAS_BOOST_MINCORE <<endl;
-        cout << *FAS_BOOST_MIDCORE <<endl;
-        cout << *FAS_BOOST_BIGCORE <<endl;
-        cout << *POW_BOOST_OC <<endl;
-        cout << *BAN_BOOST_OC <<endl;
-        cout << *PER_BOOST_OC <<endl;
-        cout << *FAS_BOOST_OC <<endl; */
+
+        if (*policynum == 3) {
+            cout << *POW_BIGCORE << endl;
+            cout << *BAN_BIGCORE << endl;
+            cout << *PER_BIGCORE << endl;
+            cout << *FAS_BIGCORE << endl;
+
+            cout << *BIGpolicy << endl;
+        }
+        else if (*policynum == 4) {
+            cout << *POW_BIGCORE << endl;
+            cout << *BAN_BIGCORE << endl;
+            cout << *PER_BIGCORE << endl;
+            cout << *FAS_BIGCORE << endl;
+
+            cout << *POW_EBIGCORE << endl;
+            cout << *BAN_EBIGCORE << endl;
+            cout << *PER_EBIGCORE << endl;
+            cout << *FAS_EBIGCORE << endl;
+
+            cout << *BIGpolicy << endl;
+            cout << *EBIGpolicy << endl;
+
+        
+        }
+        cout << *MINpolicy << endl;
+        cout << *MIDpolicy << endl;
+        cout << *policynum << endl;
+
 
 
     }

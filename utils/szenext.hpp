@@ -6,6 +6,7 @@
 #include "../tool/mods.hpp"
 #include "utils.hpp"
 #include "unistd.h"
+#include <iostream>
 #include <string>
 #include <sys/inotify.h>
 using namespace std;
@@ -24,6 +25,7 @@ public:
 
 
     void Readx(){
+        config.ReadPnum();
         config.ReadConfig();
         while (1) {
             int len = read(fd, buff, sizeof(buff));
@@ -44,7 +46,6 @@ public:
     }
 
     string GETFreqPath(string* policy){
-        
         return "/sys/devices/system/cpu/cpufreq/policy" + *policy + "/scaling_max_freq";
     }
 
@@ -60,12 +61,15 @@ public:
     void PDMODS(){
             if (Mods == "powersave")
             {
-
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.POW_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.POW_MIDCORE);
-                    utils.Writer(GETFreqPath(config.BIGpolicy),*config.POW_BIGCORE);
-                    utils.Writer(GETFreqPath( config.EBIGpolicy),*config.POW_EBIGCORE);
-
+                    if (*config.policynum == 3) {
+                        utils.Writer(GETFreqPath(config.BIGpolicy),*config.POW_BIGCORE);
+                    }
+                    else if (*config.policynum == 4) {
+                        utils.Writer(GETFreqPath(config.BIGpolicy),*config.POW_BIGCORE);
+                        utils.Writer(GETFreqPath( config.EBIGpolicy),*config.POW_EBIGCORE);
+                    }
                 if (Mods != Mtemp)
                 { 
                     utils.log(("INFO:"+Mods+"模式启动").c_str());
@@ -79,8 +83,13 @@ public:
 
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.BAN_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.BAN_MIDCORE);
-                    utils.Writer(GETFreqPath(config.BIGpolicy),*config.BAN_BIGCORE);
-                    utils.Writer(GETFreqPath(config.EBIGpolicy),*config.BAN_EBIGCORE);
+                    if (*config.policynum == 3) {
+                        utils.Writer(GETFreqPath(config.BIGpolicy),*config.BAN_BIGCORE);
+                    }
+                    else if (*config.policynum == 4) {
+                        utils.Writer(GETFreqPath(config.BIGpolicy),*config.BAN_BIGCORE);
+                        utils.Writer(GETFreqPath(config.EBIGpolicy),*config.BAN_EBIGCORE);
+                    }
 
                 if (Mods != Mtemp)
                 {
@@ -92,11 +101,15 @@ public:
 
             else if (Mods == "performance")
             {
-                
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.PER_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.PER_MIDCORE);
-                    utils.Writer(GETFreqPath(config.BIGpolicy),*config.PER_BIGCORE);
-                    utils.Writer(GETFreqPath(config.EBIGpolicy),*config.PER_EBIGCORE);
+                    if (*config.policynum == 3) {
+                        utils.Writer(GETFreqPath(config.BIGpolicy),*config.PER_BIGCORE);
+                    }
+                    else if (*config.policynum == 4) {
+                        utils.Writer(GETFreqPath(config.BIGpolicy),*config.PER_BIGCORE);
+                        utils.Writer(GETFreqPath(config.EBIGpolicy),*config.PER_EBIGCORE);
+                    }
 
                 if (Mods != Mtemp)
                 {
@@ -109,8 +122,14 @@ public:
             {
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.FAS_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.FAS_MIDCORE);
-                    utils.Writer(GETFreqPath(config.BIGpolicy),*config.FAS_BIGCORE);
-                    utils.Writer(GETFreqPath(config.EBIGpolicy),*config.FAS_EBIGCORE);
+                    if (*config.policynum == 3) {
+                        utils.Writer(GETFreqPath(config.BIGpolicy),*config.FAS_BIGCORE);
+                    }
+                    else if (*config.policynum == 4) {
+                        utils.Writer(GETFreqPath(config.BIGpolicy),*config.FAS_BIGCORE);
+                        utils.Writer(GETFreqPath(config.EBIGpolicy),*config.FAS_EBIGCORE);
+                    
+                    }
 
                 if (Mods != Mtemp)
                 {
@@ -132,7 +151,7 @@ public:
     }
 
 
-    void iniit(){
+    void init(){
         config.Readname();
         utils.log(("******调度配置：" + config.name).c_str());
         utils.log(("******配置版本：" + config.lv).c_str());
