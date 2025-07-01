@@ -44,10 +44,15 @@ public:
     }
 
     string GETFreqPath(string* policy){
+        
         return "/sys/devices/system/cpu/cpufreq/policy" + *policy + "/scaling_max_freq";
     }
 
-    string GETGovernorPath(string* policy,string* gover, string* path){
+    string GETGoverPath(string* policy){
+        return "/sys/devices/system/cpu/cpufreq/policy/" + *policy + "/Governor";
+    }
+
+    string GETGovernorPath(string* policy, string* gover, string* path){
         return "/sys/devices/system/cpu/cpufreq/policy/" + *policy + *gover + "/" + *path;
     }
 
@@ -59,6 +64,7 @@ public:
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.POW_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.POW_MIDCORE);
                     utils.Writer(GETFreqPath(config.BIGpolicy),*config.POW_BIGCORE);
+                    utils.Writer(GETFreqPath( config.EBIGpolicy),*config.POW_EBIGCORE);
 
                 if (Mods != Mtemp)
                 { 
@@ -74,6 +80,7 @@ public:
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.BAN_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.BAN_MIDCORE);
                     utils.Writer(GETFreqPath(config.BIGpolicy),*config.BAN_BIGCORE);
+                    utils.Writer(GETFreqPath(config.EBIGpolicy),*config.BAN_EBIGCORE);
 
                 if (Mods != Mtemp)
                 {
@@ -89,6 +96,7 @@ public:
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.PER_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.PER_MIDCORE);
                     utils.Writer(GETFreqPath(config.BIGpolicy),*config.PER_BIGCORE);
+                    utils.Writer(GETFreqPath(config.EBIGpolicy),*config.PER_EBIGCORE);
 
                 if (Mods != Mtemp)
                 {
@@ -102,6 +110,7 @@ public:
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.FAS_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.FAS_MIDCORE);
                     utils.Writer(GETFreqPath(config.BIGpolicy),*config.FAS_BIGCORE);
+                    utils.Writer(GETFreqPath(config.EBIGpolicy),*config.FAS_EBIGCORE);
 
                 if (Mods != Mtemp)
                 {

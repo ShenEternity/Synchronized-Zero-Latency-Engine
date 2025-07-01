@@ -22,20 +22,25 @@ public:
     int* POW_MINCORE = nullptr;
     int* POW_MIDCORE = nullptr;
     int* POW_BIGCORE = nullptr;
+    int* POW_EBIGCORE = nullptr;
     int* BAN_MINCORE = nullptr;
     int* BAN_MIDCORE = nullptr;
     int* BAN_BIGCORE = nullptr;
+    int* BAN_EBIGCORE = nullptr;
     int* PER_MINCORE = nullptr;
     int* PER_MIDCORE = nullptr;
     int* PER_BIGCORE = nullptr;
+    int* PER_EBIGCORE = nullptr;
     int* FAS_MINCORE = nullptr;
     int* FAS_MIDCORE = nullptr;
     int* FAS_BIGCORE = nullptr;
+    int* FAS_EBIGCORE = nullptr;
 
-    int* policynum = nullptr;
+    int policynum;
     string* MINpolicy = nullptr;
     string* MIDpolicy = nullptr;
     string* BIGpolicy = nullptr;
+    string* EBIGpolicy = nullptr;
 /*     int* POW_BOOST_MINCORE = nullptr;
     int* POW_BOOST_MIDCORE = nullptr;
     int* POW_BOOST_BIGCORE = nullptr;
@@ -61,20 +66,24 @@ public:
         delete POW_MINCORE;
         delete POW_MIDCORE;
         delete POW_BIGCORE;
+        delete POW_EBIGCORE;
         delete BAN_MINCORE;
         delete BAN_MIDCORE;
         delete BAN_BIGCORE;
+        delete BAN_EBIGCORE;
         delete PER_MINCORE;
         delete PER_MIDCORE;
         delete PER_BIGCORE;
+        delete PER_EBIGCORE;
         delete FAS_MINCORE;
         delete FAS_MIDCORE;
         delete FAS_BIGCORE;
+        delete FAS_EBIGCORE;
 
-        delete policynum;
         delete MIDpolicy;
         delete MINpolicy;
         delete BIGpolicy;
+        delete EBIGpolicy;
 /*         delete POW_BOOST_MINCORE;
         delete POW_BOOST_MIDCORE;
         delete POW_BOOST_BIGCORE;
@@ -96,14 +105,22 @@ public:
 
 
 public:
-    void ReadConfig(){
+    int ReadPnum(){
         ifstream file(ConfigPath);
         if (file.is_open()) {
             json config;
             file >> config;
-            name = config["Name"]["name"];
-            lv = config["Name"]["lv"];
-            Out = config["Name"]["aut"];
+            policynum = config["Policy"]["policynum"];
+        }
+        return -1;
+    }
+
+    void ReadConfig(){
+        ReadPnum();
+        ifstream file(ConfigPath);
+        if (file.is_open()) {
+            json config;
+            file >> config;
 
             POW_MINCORE = new int(config["powersave"]["FREQ"]["MINCORE"]);
             BAN_MINCORE = new int(config["balance"]["FREQ"]["MINCORE"]);
@@ -115,15 +132,33 @@ public:
             PER_MIDCORE = new int(config["performace"]["FREQ"]["MIDCORE"]);
             FAS_MIDCORE = new int(config ["fast"]["FREQ"]["MIDCORE"]);
 
-            POW_BIGCORE = new int(config["powersave"]["FREQ"]["BIGCORE"]);
-            BAN_BIGCORE = new int(config["balance"]["FREQ"]["BIGCORE"]);
-            PER_BIGCORE = new int(config["performace"]["FREQ"]["BIGCORE"]);
-            FAS_BIGCORE = new int(config ["fast"]["FREQ"]["BIGCORE"]);
-
-            policynum = new int(config["Policy"]["policynum"]);
             MINpolicy = new string(config["Policy"]["policy"]["policy1"]);
             MIDpolicy = new string(config["Policy"]["policy"]["policy2"]);
-            BIGpolicy = new string(config["Policy"]["policy"]["policy3"]);
+            if (policynum == 3) {
+
+                BIGpolicy = new string(config["Policy"]["policy"]["policy3"]);
+                POW_MIDCORE = new int(config["powersave"]["FREQ"]["MIDCORE"]);
+                BAN_MIDCORE = new int(config["balance"]["FREQ"]["MIDCORE"]);
+                PER_MIDCORE = new int(config["performace"]["FREQ"]["MIDCORE"]);
+                FAS_MIDCORE = new int(config ["fast"]["FREQ"]["MIDCORE"]);
+            }
+
+            else if (policynum == 4) {
+                BIGpolicy = new string(config["Policy"]["policy"]["policy3"]);
+                EBIGpolicy = new string(config["Policy"]["policy"]["policy4"]);
+                POW_MIDCORE = new int(config["powersave"]["FREQ"]["MIDCORE"]);
+                BAN_MIDCORE = new int(config["balance"]["FREQ"]["MIDCORE"]);
+                PER_MIDCORE = new int(config["performace"]["FREQ"]["MIDCORE"]);
+                FAS_MIDCORE = new int(config ["fast"]["FREQ"]["MIDCORE"]);
+                
+                POW_EBIGCORE = new int(config["powersave"]["FREQ"]["EBIGCORE"]);
+                BAN_EBIGCORE = new int(config["balance"]["FREQ"]["EBIGCORE"]);
+                PER_EBIGCORE = new int(config["performace"]["FREQ"]["EBIGCORE"]);
+                FAS_EBIGCORE = new int(config ["fast"]["FREQ"]["EBIGCORE"]);
+
+            
+            }
+            
 /*             POW_BOOST_MINCORE = new int(config["powersave"]["BOOST"]["MINCORE"]);
             POW_BOOST_MIDCORE = new int(config["powersave"]["BOOST"]["MIDCORE"]);
             POW_BOOST_BIGCORE = new int(config["powersave"]["BOOST"]["BIGCORE"]);
