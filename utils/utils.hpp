@@ -58,15 +58,15 @@ public:
         }
     }
 
-    void Writer(const char* path, const string str) {
-        FILE* file = fopen(path, "w");
+    void Writer(const string path, const string str) {
+        FILE* file = fopen(path.c_str(), "w");
         if (!file) {
-            chmod(path, 0666);
-            file = fopen(path, "w");
+            chmod(path.c_str(), 0666);
+            file = fopen(path.c_str(), "w");
         }
         int result = fprintf(file, "%s", str.c_str());
         fclose(file);
-        chmod(path, 0444);
+        chmod(path.c_str(), 0444);
     }
 
     std::vector<std::vector<long>> readCpuStats() {

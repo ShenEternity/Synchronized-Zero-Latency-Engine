@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <sys/inotify.h>
+#include <thread>
 using namespace std;
 class SZENEXT {
 public:
@@ -50,11 +51,11 @@ public:
     }
 
     string GETGoverPath(string* policy){
-        return "/sys/devices/system/cpu/cpufreq/policy/" + *policy + "/Governor";
+        return "/sys/devices/system/cpu/cpufreq/policy" + *policy + "/scaling_governor";
     }
 
     string GETGovernorPath(string* policy, string* gover, string* path){
-        return "/sys/devices/system/cpu/cpufreq/policy/" + *policy + *gover + "/" + *path;
+        return "/sys/devices/system/cpu/cpufreq/policy" + *policy + *gover + "/" + *path;
     }
 
 
@@ -63,12 +64,19 @@ public:
             {
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.POW_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.POW_MIDCORE);
+                    utils.Writer(GETGoverPath(config.MINpolicy),*config.POW_MIN_Gover);
+                    utils.Writer(GETGoverPath(config.MIDpolicy),*config.POW_MID_Gover);
+                    
                     if (*config.policynum == 3) {
                         utils.Writer(GETFreqPath(config.BIGpolicy),*config.POW_BIGCORE);
+                        utils.Writer(GETGoverPath(config.BIGpolicy),*config.POW_BIG_Gover);
                     }
                     else if (*config.policynum == 4) {
                         utils.Writer(GETFreqPath(config.BIGpolicy),*config.POW_BIGCORE);
                         utils.Writer(GETFreqPath( config.EBIGpolicy),*config.POW_EBIGCORE);
+                        utils.Writer(GETGoverPath(config.BIGpolicy),*config.POW_BIG_Gover);
+                        utils.Writer(GETGoverPath(config.EBIGpolicy),*config.POW_EBIG_Gover);
+
                     }
                 if (Mods != Mtemp)
                 { 
@@ -83,12 +91,17 @@ public:
 
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.BAN_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.BAN_MIDCORE);
+                    utils.Writer(GETGoverPath(config.MINpolicy),*config.BAN_MIN_Gover);
+                    utils.Writer(GETGoverPath(config.MIDpolicy),*config.BAN_MID_Gover);
                     if (*config.policynum == 3) {
                         utils.Writer(GETFreqPath(config.BIGpolicy),*config.BAN_BIGCORE);
+                        utils.Writer(GETGoverPath(config.BIGpolicy),*config.BAN_BIG_Gover);
                     }
                     else if (*config.policynum == 4) {
                         utils.Writer(GETFreqPath(config.BIGpolicy),*config.BAN_BIGCORE);
                         utils.Writer(GETFreqPath(config.EBIGpolicy),*config.BAN_EBIGCORE);
+                        utils.Writer(GETGoverPath(config.BIGpolicy),*config.BAN_BIG_Gover);
+                        utils.Writer(GETGoverPath(config.EBIGpolicy),*config.BAN_EBIG_Gover);
                     }
 
                 if (Mods != Mtemp)
@@ -103,12 +116,17 @@ public:
             {
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.PER_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.PER_MIDCORE);
+                    utils.Writer(GETGoverPath(config.MINpolicy),*config.PER_MIN_Gover);
+                    utils.Writer(GETGoverPath(config.MIDpolicy),*config.PER_MID_Gover);
                     if (*config.policynum == 3) {
                         utils.Writer(GETFreqPath(config.BIGpolicy),*config.PER_BIGCORE);
+                        utils.Writer(GETGoverPath(config.BIGpolicy),*config.PER_BIG_Gover);
                     }
                     else if (*config.policynum == 4) {
                         utils.Writer(GETFreqPath(config.BIGpolicy),*config.PER_BIGCORE);
                         utils.Writer(GETFreqPath(config.EBIGpolicy),*config.PER_EBIGCORE);
+                        utils.Writer(GETGoverPath(config.BIGpolicy),*config.PER_BIG_Gover);
+                        utils.Writer(GETGoverPath(config.EBIGpolicy),*config.PER_EBIG_Gover);
                     }
 
                 if (Mods != Mtemp)
@@ -122,13 +140,17 @@ public:
             {
                     utils.Writer(GETFreqPath(config.MINpolicy),*config.FAS_MINCORE);
                     utils.Writer(GETFreqPath(config.MIDpolicy),*config.FAS_MIDCORE);
+                    utils.Writer(GETGoverPath(config.MINpolicy),*config.FAS_MIN_Gover);
+                    utils.Writer(GETGoverPath(config.MIDpolicy),*config.FAS_MID_Gover);
                     if (*config.policynum == 3) {
                         utils.Writer(GETFreqPath(config.BIGpolicy),*config.FAS_BIGCORE);
+                        utils.Writer(GETGoverPath(config.BIGpolicy),*config.FAS_BIG_Gover);
                     }
                     else if (*config.policynum == 4) {
                         utils.Writer(GETFreqPath(config.BIGpolicy),*config.FAS_BIGCORE);
                         utils.Writer(GETFreqPath(config.EBIGpolicy),*config.FAS_EBIGCORE);
-                    
+                        utils.Writer(GETGoverPath(config.BIGpolicy),*config.FAS_BIG_Gover);
+                        utils.Writer(GETGoverPath(config.EBIGpolicy),*config.FAS_EBIG_Gover);
                     }
 
                 if (Mods != Mtemp)
@@ -137,6 +159,30 @@ public:
                     Mtemp = Mods;
                 }
             }
+    }
+
+
+    void SetGover(){
+        if (Mods == "powersave")
+        {
+            
+        }
+
+        else if (Mods == "balance")
+        {
+
+        }
+
+        else if (Mods == "performance")
+        {
+
+        }
+
+        else if (Mods == "fast")
+        {
+
+        
+        }
     }
 
 
