@@ -26,8 +26,8 @@ public:
 
 
     void Readx(){
-        config.ReadPnum();
         config.ReadConfig();
+        config.ReadSetConfig();
         while (1) {
             int len = read(fd, buff, sizeof(buff));
             for (char * i = buff; i < buff + len;) {
@@ -40,6 +40,7 @@ public:
                         Mods = std::move(modss);
                     }
                     PDMODS();
+                    SetGover();
                 }
                 i += sizeof(inotify_event) + eve->len;
             }
@@ -55,7 +56,7 @@ public:
     }
 
     string GETGovernorPath(string* policy, string* gover, string* path){
-        return "/sys/devices/system/cpu/cpufreq/policy" + *policy + *gover + "/" + *path;
+        return "/sys/devices/system/cpu/cpufreq/policy" + *policy + "/" + *gover + "/" + *path;
     }
 
 
@@ -165,22 +166,229 @@ public:
     void SetGover(){
         if (Mods == "powersave")
         {
-            
-        }
+            if (*config.Setnum == 1)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.POW_MIN_Gover, config.Setname1), *config.POW_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.POW_MID_Gover, config.Setname1), *config.POW_SetG_MID_N1);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname1), *config.POW_SetG_BIG_N1);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname1), *config.POW_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.POW_EBIG_Gover, config.Setname1), *config.POW_SetG_EBIG_N1);
+                }
+            }
 
+            else if (*config.Setnum == 2)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.POW_MIN_Gover, config.Setname1), *config.POW_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.POW_MIN_Gover, config.Setname2), *config.POW_SetG_MIN_N2);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.POW_MID_Gover, config.Setname1), *config.POW_SetG_MID_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.POW_MID_Gover, config.Setname2), *config.POW_SetG_MID_N2);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname1), *config.POW_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname2), *config.POW_SetG_BIG_N2);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname1), *config.POW_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname2), *config.POW_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.POW_EBIG_Gover, config.Setname1), *config.POW_SetG_EBIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.POW_EBIG_Gover, config.Setname2), *config.POW_SetG_EBIG_N2);
+                }
+            }
+            else if(*config.Setnum == 3)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.POW_MIN_Gover, config.Setname1), *config.POW_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.POW_MIN_Gover, config.Setname2), *config.POW_SetG_MIN_N2);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.POW_MIN_Gover, config.Setname3), *config.POW_SetG_MIN_N3);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.POW_MID_Gover, config.Setname1), *config.POW_SetG_MID_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.POW_MID_Gover, config.Setname2), *config.POW_SetG_MID_N2);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.POW_MID_Gover, config.Setname3), *config.POW_SetG_MID_N3);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname1), *config.POW_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname2), *config.POW_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname3), *config.POW_SetG_BIG_N3);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname1), *config.POW_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname2), *config.POW_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.POW_BIG_Gover, config.Setname3), *config.POW_SetG_BIG_N3);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.POW_EBIG_Gover, config.Setname1), *config.POW_SetG_EBIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.POW_EBIG_Gover, config.Setname2), *config.POW_SetG_EBIG_N2);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.POW_EBIG_Gover, config.Setname3), *config.POW_SetG_EBIG_N3);
+                }
+
+            }
+
+        }
         else if (Mods == "balance")
         {
+            if (*config.Setnum == 1)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.BAN_MIN_Gover, config.Setname1), *config.BAN_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.BAN_MID_Gover, config.Setname1), *config.BAN_SetG_MID_N1);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname1), *config.BAN_SetG_BIG_N1);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname1), *config.BAN_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.BAN_EBIG_Gover, config.Setname1), *config.BAN_SetG_EBIG_N1);
+                }
+            }
 
+            else if (*config.Setnum == 2)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.BAN_MIN_Gover, config.Setname1), *config.BAN_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.BAN_MIN_Gover, config.Setname2), *config.BAN_SetG_MIN_N2);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.BAN_MID_Gover, config.Setname1), *config.BAN_SetG_MID_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.BAN_MID_Gover, config.Setname2), *config.BAN_SetG_MID_N2);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname1), *config.BAN_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname2), *config.BAN_SetG_BIG_N2);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname1), *config.BAN_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname2), *config.BAN_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.BAN_EBIG_Gover, config.Setname1), *config.BAN_SetG_EBIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.BAN_EBIG_Gover, config.Setname2), *config.BAN_SetG_EBIG_N2);
+                }
+            }
+            else if (*config.Setnum == 3)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.BAN_MIN_Gover, config.Setname1), *config.BAN_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.BAN_MIN_Gover, config.Setname2), *config.BAN_SetG_MIN_N2);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.BAN_MIN_Gover, config.Setname3), *config.BAN_SetG_MIN_N3);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.BAN_MID_Gover, config.Setname1), *config.BAN_SetG_MID_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.BAN_MID_Gover, config.Setname2), *config.BAN_SetG_MID_N2);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.BAN_MID_Gover, config.Setname3), *config.BAN_SetG_MID_N3);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname1), *config.BAN_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname2), *config.BAN_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname3), *config.BAN_SetG_BIG_N3);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname1), *config.BAN_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname2), *config.BAN_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.BAN_BIG_Gover, config.Setname3), *config.BAN_SetG_BIG_N3);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.BAN_EBIG_Gover, config.Setname1), *config.BAN_SetG_EBIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.BAN_EBIG_Gover, config.Setname2), *config.BAN_SetG_EBIG_N2);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.BAN_EBIG_Gover, config.Setname3), *config.BAN_SetG_EBIG_N3);
+                }
+            }
         }
 
         else if (Mods == "performance")
         {
+            if (*config.Setnum == 1)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.PER_MIN_Gover, config.Setname1), *config.PER_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.PER_MID_Gover, config.Setname1), *config.PER_SetG_MID_N1);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname1), *config.PER_SetG_BIG_N1);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname1), *config.PER_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.PER_EBIG_Gover, config.Setname1), *config.PER_SetG_EBIG_N1);
+                }
+            }
 
+            else if (*config.Setnum == 2)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.PER_MIN_Gover, config.Setname1), *config.PER_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.PER_MIN_Gover, config.Setname2), *config.PER_SetG_MIN_N2);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.PER_MID_Gover, config.Setname1), *config.PER_SetG_MID_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.PER_MID_Gover, config.Setname2), *config.PER_SetG_MID_N2);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname1), *config.PER_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname2), *config.PER_SetG_BIG_N2);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname1), *config.PER_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname2), *config.PER_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.PER_EBIG_Gover, config.Setname1), *config.PER_SetG_EBIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.PER_EBIG_Gover, config.Setname2), *config.PER_SetG_EBIG_N2);
+                }
+            }
+            else if (*config.Setnum == 3)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.PER_MIN_Gover, config.Setname1), *config.PER_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.PER_MIN_Gover, config.Setname2), *config.PER_SetG_MIN_N2);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.PER_MIN_Gover, config.Setname3), *config.PER_SetG_MIN_N3);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.PER_MID_Gover, config.Setname1), *config.PER_SetG_MID_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.PER_MID_Gover, config.Setname2), *config.PER_SetG_MID_N2);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.PER_MID_Gover, config.Setname3), *config.PER_SetG_MID_N3);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname1), *config.PER_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname2), *config.PER_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname3), *config.PER_SetG_BIG_N3);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname1), *config.PER_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname2), *config.PER_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.PER_BIG_Gover, config.Setname3), *config.PER_SetG_BIG_N3);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.PER_EBIG_Gover, config.Setname1), *config.PER_SetG_EBIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.PER_EBIG_Gover, config.Setname2), *config.PER_SetG_EBIG_N2);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.PER_EBIG_Gover, config.Setname3), *config.PER_SetG_EBIG_N3);
+                }
+            
+            }
         }
 
         else if (Mods == "fast")
         {
+            if (*config.Setnum == 1)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.FAS_MIN_Gover, config.Setname1), *config.FAS_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.FAS_MID_Gover, config.Setname1), *config.FAS_SetG_MID_N1);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname1), *config.FAS_SetG_BIG_N1);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname1), *config.FAS_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.FAS_EBIG_Gover, config.Setname1), *config.FAS_SetG_EBIG_N1);
+                }
+            }
 
+            else if (*config.Setnum == 2)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.FAS_MIN_Gover, config.Setname1), *config.FAS_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.FAS_MIN_Gover, config.Setname2), *config.FAS_SetG_MIN_N2);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.FAS_MID_Gover, config.Setname1), *config.FAS_SetG_MID_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.FAS_MID_Gover, config.Setname2), *config.FAS_SetG_MID_N2);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname1), *config.FAS_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname2), *config.FAS_SetG_BIG_N2);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname1), *config.FAS_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname2), *config.FAS_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.FAS_EBIG_Gover, config.Setname1), *config.FAS_SetG_EBIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.FAS_EBIG_Gover, config.Setname2), *config.FAS_SetG_EBIG_N2);
+                }
+            }
+
+            else if (*config.Setnum == 3)
+            {
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.FAS_MIN_Gover, config.Setname1), *config.FAS_SetG_MIN_N1);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.FAS_MIN_Gover, config.Setname2), *config.FAS_SetG_MIN_N2);
+                utils.Writer(GETGovernorPath(config.MINpolicy, config.FAS_MIN_Gover, config.Setname3), *config.FAS_SetG_MIN_N3);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.FAS_MID_Gover, config.Setname1), *config.FAS_SetG_MID_N1);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.FAS_MID_Gover, config.Setname2), *config.FAS_SetG_MID_N2);
+                utils.Writer(GETGovernorPath(config.MIDpolicy, config.FAS_MID_Gover, config.Setname3), *config.FAS_SetG_MID_N3);
+                if (*config.policynum == 3) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname1), *config.FAS_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname2), *config.FAS_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname3), *config.FAS_SetG_BIG_N3);
+                }
+                else if (*config.policynum == 4) {
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname1), *config.FAS_SetG_BIG_N1);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname2), *config.FAS_SetG_BIG_N2);
+                    utils.Writer(GETGovernorPath(config.BIGpolicy, config.FAS_BIG_Gover, config.Setname3), *config.FAS_SetG_BIG_N3);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.FAS_EBIG_Gover, config.Setname1), *config.FAS_SetG_EBIG_N1);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.FAS_EBIG_Gover, config.Setname2), *config.FAS_SetG_EBIG_N2);
+                    utils.Writer(GETGovernorPath(config.EBIGpolicy, config.FAS_EBIG_Gover, config.Setname3), *config.FAS_SetG_EBIG_N3);
+                }
+            }
         
         }
     }

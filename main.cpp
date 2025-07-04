@@ -10,7 +10,7 @@ int main(){
 /*     Rconfig config;
 
     config.ReadConfig();
-
+    config.ReadSetConfig();
     config.print(); */
 }
 

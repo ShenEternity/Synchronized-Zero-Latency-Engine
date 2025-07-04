@@ -89,6 +89,7 @@ public:
     int* FAS_SetG_MIN_N1 = nullptr;
     int* FAS_SetG_MIN_N2 = nullptr;
     int* FAS_SetG_MIN_N3 = nullptr;
+    
 
 
     int* POW_SetG_MID_N1 = nullptr;
@@ -295,7 +296,7 @@ public:
         if (file.is_open()) {
             json config;
             file >> config;
-            Setnum = new int(config["SetPath"]["Setnum"]);
+            Setnum = new int(config["GoverPath"]["SetNum"]);
         }
         else{
             utils.log("配置文件不存在！");
@@ -396,6 +397,7 @@ public:
     }
 
     void ReadSetConfig(){
+        ReadSnum();
         ifstream file (ConfigPath);
         if (file.is_open()) {
             json config; 
@@ -412,21 +414,31 @@ public:
                 PER_SetG_MID_N1 = new int(config["performace"]["SetGover"]["MIDCORE"][*Setname1]);
                 FAS_SetG_MID_N1 = new int(config["fast"]["SetGover"]["MIDCORE"][*Setname1]);
 
-                POW_SetG_BIG_N1 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname1]);
-                BAN_SetG_BIG_N1 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname1]);
-                PER_SetG_BIG_N1 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname1]);
-                FAS_SetG_BIG_N1 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname1]);
+                if (*policynum == 3) {
+                    POW_SetG_BIG_N1 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname1]);
+                    BAN_SetG_BIG_N1 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname1]);
+                    PER_SetG_BIG_N1 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname1]);
+                    FAS_SetG_BIG_N1 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname1]);
+                }
 
-                POW_SetG_EBIG_N1 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname1]);
-                BAN_SetG_EBIG_N1 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname1]);
-                PER_SetG_EBIG_N1 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname1]);
-                FAS_SetG_EBIG_N1 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname1]);
+                else if (*policynum == 4) {
+                    POW_SetG_BIG_N1 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname1]);
+                    BAN_SetG_BIG_N1 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname1]);
+                    PER_SetG_BIG_N1 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname1]);
+                    FAS_SetG_BIG_N1 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname1]);
+
+                    POW_SetG_EBIG_N1 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    BAN_SetG_EBIG_N1 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    PER_SetG_EBIG_N1 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    FAS_SetG_EBIG_N1 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname1]);
+                
+                }
 
 
 
             }
             else if (*Setnum == 2) {
-                Setname1 = new string(config["GoverPath"]["Setname1"]);
+                Setname1 = new string(config["GoverPath"]["SetName1"]);
                 Setname2 = new string(config["GoverPath"]["Setname2"]);
                 POW_SetG_MIN_N1 = new int(config["powersave"]["SetGover"]["MINCORE"][*Setname1]);
                 POW_SetG_MIN_N2 = new int(config["powersave"]["SetGover"]["MINCORE"][*Setname2]);
@@ -446,29 +458,42 @@ public:
                 FAS_SetG_MID_N1 = new int(config["fast"]["SetGover"]["MIDCORE"][*Setname1]);
                 FAS_SetG_MID_N2 = new int(config["fast"]["SetGover"]["MIDCORE"][*Setname2]);
 
-                POW_SetG_BIG_N1 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname1]);
-                POW_SetG_BIG_N2 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname2]);
-                BAN_SetG_BIG_N1 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname1]);
-                BAN_SetG_BIG_N2 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname2]);
-                PER_SetG_BIG_N1 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname1]);
-                PER_SetG_BIG_N2 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname2]);
-                FAS_SetG_BIG_N1 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname1]);
-                FAS_SetG_BIG_N2 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname2]);
+                if (*policynum == 3) {
+                    POW_SetG_BIG_N1 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname1]);
+                    POW_SetG_BIG_N2 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname2]);
+                    BAN_SetG_BIG_N1 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname1]);
+                    BAN_SetG_BIG_N2 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname2]);
+                    PER_SetG_BIG_N1 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname1]);
+                    PER_SetG_BIG_N2 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname2]);
+                    FAS_SetG_BIG_N1 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname1]);
+                    FAS_SetG_BIG_N2 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname2]);
+                }
 
-                POW_SetG_EBIG_N1 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname1]);
-                POW_SetG_EBIG_N2 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname2]);
-                BAN_SetG_EBIG_N1 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname1]);
-                BAN_SetG_EBIG_N2 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname2]);
-                PER_SetG_EBIG_N1 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname1]);
-                PER_SetG_EBIG_N2 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname2]);
-                FAS_SetG_EBIG_N1 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname1]);
-                FAS_SetG_EBIG_N2 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname2]);
+                else if (*policynum == 4) {
+                    POW_SetG_BIG_N1 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname1]);
+                    POW_SetG_BIG_N2 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname2]);
+                    BAN_SetG_BIG_N1 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname1]);
+                    BAN_SetG_BIG_N2 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname2]);
+                    PER_SetG_BIG_N1 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname1]);
+                    PER_SetG_BIG_N2 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname2]);
+                    FAS_SetG_BIG_N1 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname1]);
+                    FAS_SetG_BIG_N2 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname2]);
+
+                    POW_SetG_EBIG_N1 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    POW_SetG_EBIG_N2 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname2]);
+                    BAN_SetG_EBIG_N1 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    BAN_SetG_EBIG_N2 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname2]);
+                    PER_SetG_EBIG_N1 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    PER_SetG_EBIG_N2 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname2]);
+                    FAS_SetG_EBIG_N1 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    FAS_SetG_EBIG_N2 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname2]);
+                }
             }
             
             else if (*Setnum == 3) {
-                Setname1 = new string(config["GoverPath"]["Setname1"]);
-                Setname2 = new string(config["GoverPath"]["Setname2"]);
-                Setname3 = new string(config["GoverPath"]["Setname3"]);
+                Setname1 = new string(config["GoverPath"]["SetName1"]);
+                Setname2 = new string(config["GoverPath"]["SetName2"]);
+                Setname3 = new string(config["GoverPath"]["SetName3"]);
                 POW_SetG_MIN_N1 = new int(config["powersave"]["SetGover"]["MINCORE"][*Setname1]);
                 POW_SetG_MIN_N2 = new int(config["powersave"]["SetGover"]["MINCORE"][*Setname2]);
                 POW_SetG_MIN_N3 = new int(config["powersave"]["SetGover"]["MINCORE"][*Setname3]);
@@ -495,31 +520,37 @@ public:
                 FAS_SetG_MID_N2 = new int(config["fast"]["SetGover"]["MIDCORE"][*Setname2]);
                 FAS_SetG_MID_N3 = new int(config["fast"]["SetGover"]["MIDCORE"][*Setname3]);
 
-                POW_SetG_BIG_N1 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname1]);
-                POW_SetG_BIG_N2 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname2]);
-                POW_SetG_BIG_N3 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname3]);
-                BAN_SetG_BIG_N1 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname1]);
-                BAN_SetG_BIG_N2 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname2]);
-                BAN_SetG_BIG_N3 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname3]);
-                PER_SetG_BIG_N1 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname1]);
-                PER_SetG_BIG_N2 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname2]);
-                PER_SetG_BIG_N3 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname3]);
-                FAS_SetG_BIG_N1 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname1]);
-                FAS_SetG_BIG_N2 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname2]);
-                FAS_SetG_BIG_N3 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname3]);
+                if (*policynum == 3) {
+                    POW_SetG_BIG_N1 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname1]);
+                    POW_SetG_BIG_N2 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname2]);
+                    POW_SetG_BIG_N3 = new int(config["powersave"]["SetGover"]["BIGCORE"][*Setname3]);
+                    BAN_SetG_BIG_N1 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname1]);
+                    BAN_SetG_BIG_N2 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname2]);
+                    BAN_SetG_BIG_N3 = new int(config["balance"]["SetGover"]["BIGCORE"][*Setname3]);
+                    PER_SetG_BIG_N1 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname1]);
+                    PER_SetG_BIG_N2 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname2]);
+                    PER_SetG_BIG_N3 = new int(config["performace"]["SetGover"]["BIGCORE"][*Setname3]);
+                    FAS_SetG_BIG_N1 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname1]);
+                    FAS_SetG_BIG_N2 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname2]);
+                    FAS_SetG_BIG_N3 = new int(config["fast"]["SetGover"]["BIGCORE"][*Setname3]);
+                }
 
-                POW_SetG_EBIG_N1 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname1]);
-                POW_SetG_EBIG_N2 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname2]);
-                POW_SetG_EBIG_N3 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname3]);
-                BAN_SetG_EBIG_N1 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname1]);
-                BAN_SetG_EBIG_N2 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname2]);
-                BAN_SetG_EBIG_N3 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname3]);
-                PER_SetG_EBIG_N1 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname1]);
-                PER_SetG_EBIG_N2 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname2]);
-                PER_SetG_EBIG_N3 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname3]);
-                FAS_SetG_EBIG_N1 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname1]);
-                FAS_SetG_EBIG_N2 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname2]);
-                FAS_SetG_EBIG_N3 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname3]);
+                
+                if (*policynum == 4) {
+                    POW_SetG_EBIG_N1 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    POW_SetG_EBIG_N2 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname2]);
+                    POW_SetG_EBIG_N3 = new int(config["powersave"]["SetGover"]["EBIGCORE"][*Setname3]);
+                    BAN_SetG_EBIG_N1 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    BAN_SetG_EBIG_N2 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname2]);
+                    BAN_SetG_EBIG_N3 = new int(config["balance"]["SetGover"]["EBIGCORE"][*Setname3]);
+                    PER_SetG_EBIG_N1 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    PER_SetG_EBIG_N2 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname2]);
+                    PER_SetG_EBIG_N3 = new int(config["performace"]["SetGover"]["EBIGCORE"][*Setname3]);
+                    FAS_SetG_EBIG_N1 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname1]);
+                    FAS_SetG_EBIG_N2 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname2]);
+                    FAS_SetG_EBIG_N3 = new int(config["fast"]["SetGover"]["EBIGCORE"][*Setname3]);
+                }
+                    
             }
         }
         
@@ -538,49 +569,190 @@ public:
     }
 
     void print (){
-        cout << name << endl;
-        cout << lv << endl;
-        cout << Out << endl;
-        cout << *POW_MINCORE <<endl;
-        cout << *POW_MIDCORE <<endl;
+        cout << "name=" << name << endl;
+        cout << "lv=" << lv << endl;
+        cout << "aut=" << Out << endl;
+        cout << "POW_MINCORE=" << *POW_MINCORE <<endl;
+        cout << "POW_MIDCORE=" << *POW_MIDCORE <<endl;
 
-        cout << *BAN_MINCORE <<endl;
-        cout << *BAN_MIDCORE <<endl;
+        cout << "BAN_MINCORE=" << *BAN_MINCORE <<endl;
+        cout << "BAN_MIDCORE=" << *BAN_MIDCORE <<endl;
 
-        cout << *PER_MINCORE <<endl;
-        cout << *PER_MIDCORE <<endl;
+        cout << "PER_MINCORE=" << *PER_MINCORE <<endl;
+        cout << "PER_MIDCORE=" << *PER_MIDCORE <<endl;
 
-        cout << *FAS_MINCORE <<endl;
-        cout << *FAS_MIDCORE <<endl;
+        cout << "FAS_MINCORE=" << *FAS_MINCORE <<endl;
+        cout << "FAS_MIDCORE=" << *FAS_MIDCORE <<endl;
 
         if (*policynum == 3) {
-            cout << *POW_BIGCORE << endl;
-            cout << *BAN_BIGCORE << endl;
-            cout << *PER_BIGCORE << endl;
-            cout << *FAS_BIGCORE << endl;
+            cout << "POW_BIGCORE=" << *POW_BIGCORE << endl;
+            cout << "BAN_BIGCORE=" << *BAN_BIGCORE << endl;
+            cout << "PER_BIGCORE=" << *PER_BIGCORE << endl;
+            cout << "FAS_BIGCORE=" << *FAS_BIGCORE << endl;
 
-            cout << *BIGpolicy << endl;
+            cout << "BIGpolicy=" << *BIGpolicy << endl;
         }
         else if (*policynum == 4) {
-            cout << *POW_BIGCORE << endl;
-            cout << *BAN_BIGCORE << endl;
-            cout << *PER_BIGCORE << endl;
-            cout << *FAS_BIGCORE << endl;
+            cout << "POW_BIGCORE=" << *POW_BIGCORE << endl;
+            cout << "BAN_BIGCORE=" << *BAN_BIGCORE << endl;
+            cout << "PER_BIGCORE=" << *PER_BIGCORE << endl;
+            cout << "FAS_BIGCORE=" << *FAS_BIGCORE << endl;
 
-            cout << *POW_EBIGCORE << endl;
-            cout << *BAN_EBIGCORE << endl;
-            cout << *PER_EBIGCORE << endl;
-            cout << *FAS_EBIGCORE << endl;
+            cout << "POW_EBIGCORE=" << *POW_EBIGCORE << endl;
+            cout << "BAN_EBIGCORE=" << *BAN_EBIGCORE << endl;
+            cout << "PER_EBIGCORE=" << *PER_EBIGCORE << endl;
+            cout << "FAS_EBIGCORE=" << *FAS_EBIGCORE << endl;
 
-            cout << *BIGpolicy << endl;
-            cout << *EBIGpolicy << endl;
+            cout << "BIGpolicy=" << *BIGpolicy << endl;
+            cout << "EBIGpolicy=" << *EBIGpolicy << endl;
 
+        }
+
+        if (*Setnum == 1) {
+            cout << "Setname1=" << *Setname1 << endl;
+            cout << "POW_SetG_MIN_N1=" << *POW_SetG_MIN_N1 << endl;
+            cout << "BAN_SetG_MIN_N1=" << *BAN_SetG_MIN_N1 << endl;
+            cout << "PER_SetG_MIN_N1=" << *PER_SetG_MIN_N1 << endl;
+            cout << "FAS_SetG_MIN_N1=" << *FAS_SetG_MIN_N1 << endl;
+
+            cout << "POW_SetG_MID_N1=" << *POW_SetG_MID_N1 << endl;
+            cout << "BAN_SetG_MID_N1=" << *BAN_SetG_MID_N1 << endl;
+            cout << "PER_SetG_MID_N1=" << *PER_SetG_MID_N1 << endl;
+            cout << "FAS_SetG_MID_N1=" << *FAS_SetG_MID_N1 << endl;
+
+            if (*policynum == 3) {
+                cout << "POW_SetG_BIG_N1=" << *POW_SetG_BIG_N1 << endl;
+                cout << "BAN_SetG_BIG_N1=" << *BAN_SetG_BIG_N1 << endl;
+                cout << "PER_SetG_BIG_N1=" << *PER_SetG_BIG_N1 << endl;
+                cout << "FAS_SetG_BIG_N1=" << *FAS_SetG_BIG_N1 << endl;
+            }
+            else if (*policynum == 4) {
+                cout << "POW_SetG_BIG_N1=" << *POW_SetG_BIG_N1 << endl;
+                cout << "BAN_SetG_BIG_N1=" << *BAN_SetG_BIG_N1 << endl;
+                cout << "PER_SetG_BIG_N1=" << *PER_SetG_BIG_N1 << endl;
+                cout << "FAS_SetG_BIG_N1=" << *FAS_SetG_BIG_N1 << endl;
+
+                cout << "POW_SetG_EBIG_N1=" << *POW_SetG_EBIG_N1  << endl;
+                cout << "BAN_SetG_EBIG_N1="  << *BAN_SetG_EBIG_N1  << endl;
+                cout << "PER_SetG_EBIG_N1="  << *PER_SetG_EBIG_N1  << endl;
+                cout << "FAS_SetG_EBIG_N1="  << *FAS_SetG_EBIG_N1  << endl;
+            
+            }
+
+
+        }
+        else if (*Setnum == 2) {
+            cout <<"Setname1="<<*Setname1<<endl;
+            cout <<"Setname2="<<*Setname2<<endl;
+            cout <<"POW_SetG_MIN_N1="<<*POW_SetG_MIN_N1<<endl;
+            cout <<"POW_SetG_MIN_N2="<<*POW_SetG_MIN_N2<<endl;
+            cout <<"BAN_SetG_MIN_N1="<<*BAN_SetG_MIN_N1<<endl;
+            cout <<"BAN_SetG_MIN_N2="<<*BAN_SetG_MIN_N2<<endl;
+            cout <<"PER_SetG_MIN_N1="<<*PER_SetG_MIN_N1<<endl;
+            cout <<"PER_SetG_MIN_N2="<<*PER_SetG_MIN_N2<<endl;
+            cout <<"FAS_SetG_MIN_N1="<<*FAS_SetG_MIN_N1<<endl;
+            cout <<"FAS_SetG_MIN_N2="<<*FAS_SetG_MIN_N2<<endl;
+            cout <<"POW_SetG_MID_N1="<<*POW_SetG_MID_N1<<endl;
+            cout <<"POW_SetG_MID_N2="<<*POW_SetG_MID_N2<<endl;
+            cout <<"BAN_SetG_MID_N1="<<*BAN_SetG_MID_N1<<endl;
+            cout <<"BAN_SetG_MID_N2="<<*BAN_SetG_MID_N2<<endl;
+            cout <<"PER_SetG_MID_N1="<<*PER_SetG_MID_N1<<endl;
+            cout <<"PER_SetG_MID_N2="<<*PER_SetG_MID_N2<<endl;
+            cout <<"FAS_SetG_MID_N1="<<*FAS_SetG_MID_N1<<endl;
+            cout <<"FAS_SetG_MID_N2="<<*FAS_SetG_MID_N2<<endl;
+            if (*policynum == 3) {
+                cout <<"POW_SetG_BIG_N1="<<*POW_SetG_BIG_N1<<endl;
+                cout <<"POW_SetG_BIG_N2="<<*POW_SetG_BIG_N2<<endl;
+                cout <<"BAN_SetG_BIG_N1="<<*BAN_SetG_BIG_N1<<endl;
+                cout <<"BAN_SetG_BIG_N2="<<*BAN_SetG_BIG_N2<<endl;
+                cout <<"PER_SetG_BIG_N1="<<*PER_SetG_BIG_N1<<endl;
+                cout <<"PER_SetG_BIG_N2="<<*PER_SetG_BIG_N2<<endl;
+                cout <<"FAS_SetG_BIG_N1="<<*FAS_SetG_BIG_N1<<endl;
+                cout <<"FAS_SetG_BIG_N2="<<*FAS_SetG_BIG_N2<<endl;
+            }
+            else if (*policynum == 4) {
+                cout <<"POW_SetG_BIG_N1="<<*POW_SetG_BIG_N1<<endl;
+                cout <<"POW_SetG_BIG_N2="<<*POW_SetG_BIG_N2<<endl;
+                cout <<"BAN_SetG_BIG_N1="<<*BAN_SetG_BIG_N1<<endl;
+                cout <<"BAN_SetG_BIG_N2="<<*BAN_SetG_BIG_N2<<endl;
+                cout <<"PER_SetG_BIG_N1="<<*PER_SetG_BIG_N1<<endl;
+                cout <<"PER_SetG_BIG_N2="<<*PER_SetG_BIG_N2<<endl;
+                cout <<"FAS_SetG_BIG_N1="<<*FAS_SetG_BIG_N1<<endl;
+                cout <<"FAS_SetG_BIG_N2="<<*FAS_SetG_BIG_N2<<endl;
+
+                cout <<"POW_SetG_EBIG_N1=" << *POW_SetG_EBIG_N1 << endl;
+                cout <<"POW_SetG_EBIG_N2=" << *POW_SetG_EBIG_N2 << endl;
+                cout <<"BAN_SetG_EBIG_N1=" << *BAN_SetG_EBIG_N1 << endl;
+                cout <<"BAN_SetG_EBIG_N2=" << *BAN_SetG_EBIG_N2 << endl;
+                cout <<"PER_SetG_EBIG_N1=" << *PER_SetG_EBIG_N1 << endl;
+                cout <<"PER_SetG_EBIG_N2=" << *PER_SetG_EBIG_N2 << endl;
+                cout <<"FAS_SetG_EBIG_N1=" << *FAS_SetG_EBIG_N1 << endl;
+                cout <<"FAS_SetG_EBIG_N2=" << *FAS_SetG_EBIG_N2 << endl;
+            
+            }
+
+
+        }
+        else if (*Setnum == 3) {
+            cout <<"Setname1="<<*Setname1<<endl;
+            cout <<"Setname2="<<*Setname2<<endl;
+            cout <<"Setname3="<<*Setname3<<endl;
+            cout <<"POW_SetG_MIN_N1="<<*POW_SetG_MIN_N1<<endl;
+            cout <<"POW_SetG_MIN_N2="<<*POW_SetG_MIN_N2<<endl;
+            cout <<"POW_SetG_MIN_N3="<<*POW_SetG_MIN_N3<<endl;
+            cout <<"BAN_SetG_MIN_N1="<<*BAN_SetG_MIN_N1<<endl;
+            cout <<"BAN_SetG_MIN_N2="<<*BAN_SetG_MIN_N2<<endl;
+            cout <<"BAN_SetG_MIN_N3="<<*BAN_SetG_MIN_N3<<endl;
+            cout <<"PER_SetG_MIN_N1="<<*PER_SetG_MIN_N1<<endl;
+            cout <<"PER_SetG_MIN_N2="<<*PER_SetG_MIN_N2<<endl;
+            cout <<"PER_SetG_MIN_N3="<<*PER_SetG_MIN_N3<<endl;
+            cout <<"FAS_SetG_MIN_N1="<<*FAS_SetG_MIN_N1<<endl;
+            cout <<"FAS_SetG_MIN_N2="<<*FAS_SetG_MIN_N2<<endl;
+            cout <<"FAS_SetG_MIN_N3="<<*FAS_SetG_MIN_N3<<endl;
+            cout <<"POW_SetG_MID_N1="<<*POW_SetG_MID_N1<<endl;
+            cout <<"POW_SetG_MID_N2="<<*POW_SetG_MID_N2<<endl;
+            cout <<"POW_SetG_MID_N3="<<*POW_SetG_MID_N3<<endl;
+            cout <<"BAN_SetG_MID_N1="<<*BAN_SetG_MID_N1<<endl;
+            cout <<"BAN_SetG_MID_N2="<<*BAN_SetG_MID_N2<<endl;
+            cout <<"BAN_SetG_MID_N3="<<*BAN_SetG_MID_N3<<endl;  
+            cout <<"PER_SetG_MID_N1="<<*PER_SetG_MID_N1<<endl;
+            cout <<"PER_SetG_MID_N2="<<*PER_SetG_MID_N2<<endl;
+            cout <<"PER_SetG_MID_N3="<<*PER_SetG_MID_N3<<endl;
+            cout <<"FAS_SetG_MID_N1="<<*FAS_SetG_MID_N1<<endl;
+            cout <<"FAS_SetG_MID_N2="<<*FAS_SetG_MID_N2<<endl;
+            cout <<"FAS_SetG_MID_N3="<<*FAS_SetG_MID_N3<<endl;
+            if (*policynum == 3) {
+                cout <<"POW_SetG_BIG_N1="<<*POW_SetG_BIG_N1<<endl;
+                cout <<"POW_SetG_BIG_N2="<<*POW_SetG_BIG_N2<<endl;
+                cout <<"POW_SetG_BIG_N3="<<*POW_SetG_BIG_N3<<endl;
+                cout <<"BAN_SetG_BIG_N1="<<*BAN_SetG_BIG_N1<<endl;
+                cout <<"BAN_SetG_BIG_N2="<<*BAN_SetG_BIG_N2<<endl;
+                cout <<"BAN_SetG_BIG_N3="<<*BAN_SetG_BIG_N3<<endl;
+                cout <<"PER_SetG_BIG_N1="<<*PER_SetG_BIG_N1<<endl;
+                cout <<"PER_SetG_BIG_N2="<<*PER_SetG_BIG_N2<<endl;
+                cout <<"PER_SetG_BIG_N3="<<*PER_SetG_BIG_N3<<endl;
+                cout <<"FAS_SetG_BIG_N1="<<*FAS_SetG_BIG_N1<<endl;
+                cout <<"FAS_SetG_BIG_N2="<<*FAS_SetG_BIG_N2<<endl;
+                cout <<"FAS_SetG_BIG_N3="<<*FAS_SetG_BIG_N3<<endl;
+
+            }
+            else if (*policynum == 4) {
+                cout <<"POW_SetG_BIG_N1="<<*POW_SetG_BIG_N1<<endl;
+                cout <<"POW_SetG_BIG_N2="<<*POW_SetG_BIG_N2<<endl;
+                cout <<"POW_SetG_BIG_N3="<<*POW_SetG_BIG_N3<<endl;
+                cout <<"BAN_SetG_BIG_N1="<<*BAN_SetG_BIG_N1 << endl;
+                cout <<"BAN_SetG_BIG_N2=" << *BAN_SetG_BIG_N2 << endl;
+                cout <<"BAN_SetG_BIG_N3=" << *BAN_SetG_BIG_N3 << endl;
+                cout <<"PER_SetG_BIG_N1=" << *PER_SetG_BIG_N1 << endl;
+                cout <<"PER_SetG_BIG_N2=" << *PER_SetG_BIG_N2 << endl;
+                cout <<"PER_SetG_BIG_N3=" << *PER_SetG_BIG_N3 << endl;
+                cout <<"FAS_SetG_BIG_N1=" << *FAS_SetG_BIG_N1 << endl;
+                cout <<"FAS_SetG_BIG_N2=" << *FAS_SetG_BIG_N2 << endl;
+                cout <<"FAS_SetG_BIG_N3=" << *FAS_SetG_BIG_N3 << endl;
+            
+            }
         
         }
-        cout << *MINpolicy << endl;
-        cout << *MIDpolicy << endl;
-        cout << *policynum << endl;
-
 
 
     }
