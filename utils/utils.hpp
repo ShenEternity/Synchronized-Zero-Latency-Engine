@@ -37,6 +37,11 @@ public:
     }
 
     void Writer(const string path, int con){
+        struct stat info;
+        if (stat(path.c_str(), &info) != 0 || S_ISDIR(info.st_mode)) {
+            chmod(path.c_str(), 0666);
+            return;
+        }
         FILE* file = fopen(path.c_str(), "w");
         if (!file)
         {
@@ -44,7 +49,7 @@ public:
             file = fopen(path.c_str(), "w");
         }
         
-        int ce = fprintf(file, "%d", con);
+        fprintf(file, "%d", con);
         fclose(file);
         chmod(path.c_str(),0444);
     }
@@ -59,59 +64,19 @@ public:
     }
 
     void Writer(const string path, const string str) {
+        struct stat info;
+        if (stat(path.c_str(), &info) != 0 || S_ISDIR(info.st_mode)) {
+            chmod(path.c_str(), 0666);
+            return;
+        }
         FILE* file = fopen(path.c_str(), "w");
         if (!file) {
             chmod(path.c_str(), 0666);
             file = fopen(path.c_str(), "w");
         }
-        int result = fprintf(file, "%s", str.c_str());
+        fprintf(file, "%s", str.c_str());
         fclose(file);
         chmod(path.c_str(), 0444);
-    }
-
-    std::vector<std::vector<long>> readCpuStats() {
-        std::ifstream file("/proc/stat");
-        std::string line;
-        std::vector<std::vector<long>> cpuStats(CORE_COUNT, std::vector<long>(4));
-
-        int core = 0;
-        while (std::getline(file, line)) {
-            if (line.find("cpu") == 0 && line.find("cpu ") != 0) { 
-                std::istringstream iss(line);
-                std::string cpu;
-                iss >> cpu;
-                for (int i = 0; i < 4; ++i) {
-                    iss >> cpuStats[core][i];
-                }
-                core++;
-                if (core >= CORE_COUNT) break;
-            }
-        }
-        return cpuStats;
-    }
-
-    int calculateTotalCpuLoad(const std::vector<std::vector<long>>& stats1, const std::vector<std::vector<long>>& stats2) {
-        long total1 = 0, idle1 = 0;
-        long total2 = 0, idle2 = 0;
-
-        for (size_t i = 0; i < stats1.size(); ++i) {
-            const long* coreStats1 = stats1[i].data(); 
-            const long* coreStats2 = stats2[i].data(); 
-            total1 += *(coreStats1) + *(coreStats1 + 1) + *(coreStats1 + 2) + *(coreStats1 + 3);
-            idle1 += *(coreStats1 + 3);
-
-            total2 += *(coreStats2) + *(coreStats2 + 1) + *(coreStats2 + 2) + *(coreStats2 + 3);
-            idle2 += *(coreStats2 + 3);
-        }
-
-        long totalDiff = total2 - total1;
-        long idleDiff = idle2 - idle1;
-
-        if (totalDiff == 0) {
-            return 0;
-        }
-
-        return static_cast<int>(((totalDiff - idleDiff) * 10) >> 1) / 50;
     }
 
 };
