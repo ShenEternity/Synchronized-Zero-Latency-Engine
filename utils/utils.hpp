@@ -39,7 +39,6 @@ public:
     void Writer(const string path, int con){
         struct stat info;
         if (stat(path.c_str(), &info) != 0 || S_ISDIR(info.st_mode)) {
-            chmod(path.c_str(), 0666);
             return;
         }
         FILE* file = fopen(path.c_str(), "w");
@@ -66,7 +65,6 @@ public:
     void Writer(const string path, const string str) {
         struct stat info;
         if (stat(path.c_str(), &info) != 0 || S_ISDIR(info.st_mode)) {
-            chmod(path.c_str(), 0666);
             return;
         }
         FILE* file = fopen(path.c_str(), "w");

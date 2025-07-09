@@ -19,12 +19,19 @@ class Rconfig{
 public:
     const char* ConfigPath = "/storage/emulated/0/Android/SZE_NEXT/config.json";
     string name, lv, Out;
-    bool SetGoverConfig;
+    bool SetGoverConfig,SetGover;
     Utils utils;
 
     string policy1,policy2,policy3,policy4;
     int FREQ_MINCORE, FREQ_MIDCORE, FREQ_BIGCORE, FREQ_MAXCORE;
     string GOVER_MINCORE, GOVER_MIDCORE, GOVER_BIGCORE, GOVER_MAXCORE;
+    int GOVER_C_MINCORE1, GOVER_C_MIDCORE1, GOVER_C_BIGCORE1, GOVER_C_MAXCORE1,
+        GOVER_C_MINCORE2, GOVER_C_MIDCORE2, GOVER_C_BIGCORE2, GOVER_C_MAXCORE2,
+        GOVER_C_MINCORE3, GOVER_C_MIDCORE3, GOVER_C_BIGCORE3, GOVER_C_MAXCORE3;
+
+    string GOVER_C_MINCORE1_PATH, GOVER_C_MIDCORE1_PATH, GOVER_C_BIGCORE1_PATH, GOVER_C_MAXCORE1_PATH,
+           GOVER_C_MINCORE2_PATH, GOVER_C_MIDCORE2_PATH, GOVER_C_BIGCORE2_PATH, GOVER_C_MAXCORE2_PATH,
+           GOVER_C_MINCORE3_PATH, GOVER_C_MIDCORE3_PATH, GOVER_C_BIGCORE3_PATH, GOVER_C_MAXCORE3_PATH;
 
 
 
@@ -41,6 +48,20 @@ public:
         else {
             utils.log("配置文件无法打开");
             return;
+        }
+    }
+
+    void ReadSetConfig(){
+        ifstream file(ConfigPath);
+        if(file.is_open()){
+            json config;
+            file >> config;
+            SetGoverConfig = config["SetConfig"]["SetGoverConfig"];
+            SetGover = config["SetConfig"]["SetGover"];
+            file.close();
+        }
+        else {
+            utils.log("配置文件无法打开");
         }
     }
 
@@ -66,7 +87,7 @@ public:
     }
 
 
-    void ReadConfig(string Mode){
+    void ReadFreqConfig(string Mode){
         ifstream file(ConfigPath);
         if(file.is_open()){
             json config;
@@ -79,6 +100,19 @@ public:
             if (config[Mode]["FREQ"].contains("MAXCORE")) {
                 FREQ_MAXCORE = config[Mode]["FREQ"]["MAXCORE"];
             }
+            file.close();
+        }
+        else {
+            utils.log("配置文件无法打开");
+        }
+    }
+
+
+    void ReadGoverConfig(string Mode){
+        ifstream file(ConfigPath);
+        if(file.is_open()){
+            json config;
+            file >>  config;
             GOVER_MINCORE = config[Mode]["Governor"]["MINCORE"];
             GOVER_MIDCORE = config[Mode]["Governor"]["MIDCORE"];
             if (config[Mode]["Governor"].contains("BIGCORE")) {
@@ -93,6 +127,85 @@ public:
             utils.log("配置文件无法打开");
         }
     }
+
+
+    void ReadGoverConfigConfig(string Mode) {
+        ifstream file(ConfigPath);
+        if (file.is_open()) {
+            json config;
+            file >> config;
+            GOVER_C_MINCORE1 = config[Mode]["GoverConfig"]["MINCORE"]["Config1"];
+            GOVER_C_MIDCORE1 = config[Mode]["GoverConfig"]["MIDCORE"]["Config1"];
+            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Config1")) {
+                GOVER_C_BIGCORE1 = config[Mode]["GoverConfig"]["BIGCORE"]["Config1"];
+            }
+            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Config1")) {
+                GOVER_C_MAXCORE1 = config[Mode]["GoverConfig"]["MAXCORE"]["Config1"];
+            }
+            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Config2")) {
+                GOVER_C_MINCORE2 = config[Mode]["GoverConfig"]["MINCORE"]["Config2"];
+            }
+            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Config2")) {
+                GOVER_C_MIDCORE2 = config[Mode]["GoverConfig"]["MIDCORE"]["Config2"];
+            }
+            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Config2")) {
+                GOVER_C_BIGCORE2 = config[Mode]["GoverConfig"]["BIGCORE"]["Config2"];
+            }
+            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Config2")) {
+                GOVER_C_MAXCORE2 = config[Mode]["GoverConfig"]["MAXCORE"]["Config2"];
+            }
+            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Config3")) {
+                GOVER_C_MINCORE3 = config[Mode]["GoverConfig"]["MINCORE"]["Config3"];
+            }
+            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Config3")) {
+                GOVER_C_MIDCORE3 = config[Mode]["GoverConfig"]["MIDCORE"]["Config3"];
+            }
+            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Config3")) {
+                GOVER_C_BIGCORE3 = config[Mode]["GoverConfig"]["BIGCORE"]["Config3"];
+            }
+            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Config3")) {
+                GOVER_C_MAXCORE3 = config[Mode]["GoverConfig"]["MAXCORE"]["Config3"];
+            }
+
+            GOVER_C_MINCORE1_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path1"];
+            GOVER_C_MIDCORE1_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path1"];
+            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Path1")) {
+                GOVER_C_BIGCORE1_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path1"];
+            }
+            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Path1")) {
+                GOVER_C_MAXCORE1_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path1"];
+            }
+            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Path2")) {
+                GOVER_C_MINCORE2_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path2"];
+            }
+            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Path2")) {
+                GOVER_C_MIDCORE2_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path2"];
+            }
+            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Path2")) {
+                GOVER_C_BIGCORE2_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path2"];
+            }
+            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Path2")) {
+                GOVER_C_MAXCORE2_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path2"];
+            }
+            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Path3")) {
+                GOVER_C_MINCORE3_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path3"];
+            }
+            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Path3")) {
+                GOVER_C_MIDCORE3_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path3"];
+            }
+            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Path3")) {
+                GOVER_C_BIGCORE3_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path3"];
+            }
+            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Path3")) {
+                GOVER_C_MAXCORE3_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path3"];
+            }
+            file.close();
+        }
+        else {
+            utils.log("配置文件无法打开");
+        }
+    }
+
 
     void printConfig() {
         cout << "Name: " << name << endl;
@@ -110,6 +223,34 @@ public:
         cout << "GOVER_MIDCORE: " << GOVER_MIDCORE << endl;
         cout << "GOVER_BIGCORE: " << GOVER_BIGCORE << endl;
         cout << "GOVER_MAXCORE: " << GOVER_MAXCORE << endl;
+
+        cout << "************************************" << endl;
+        
+        cout << "GOVER_C_MINCORE1: " << GOVER_C_MINCORE1 << endl;
+        cout << "GOVER_C_MIDCORE1: " << GOVER_C_MIDCORE1 << endl;
+        cout << "GOVER_C_BIGCORE1: " << GOVER_C_BIGCORE1 << endl;
+        cout << "GOVER_C_MAXCORE1: " << GOVER_C_MAXCORE1 << endl;
+        cout << "GOVER_C_MINCORE2: " << GOVER_C_MINCORE2 << endl;
+        cout << "GOVER_C_MIDCORE2: " << GOVER_C_MIDCORE2 << endl;
+        cout << "GOVER_C_BIGCORE2: " << GOVER_C_BIGCORE2 << endl;
+        cout << "GOVER_C_MAXCORE2: " << GOVER_C_MAXCORE2 << endl;
+        cout << "GOVER_C_MINCORE3: " << GOVER_C_MINCORE3 << endl;
+        cout << "GOVER_C_MIDCORE3: " << GOVER_C_MIDCORE3 << endl;
+        cout << "GOVER_C_BIGCORE3: " << GOVER_C_BIGCORE3 << endl;
+        cout << "GOVER_C_MAXCORE3: " << GOVER_C_MAXCORE3 << endl;
+        cout << "GOVER_C_MINCORE1_PATH: " << GOVER_C_MINCORE1_PATH << endl;
+        cout << "GOVER_C_MIDCORE1_PATH: " << GOVER_C_MIDCORE1_PATH << endl;
+        cout << "GOVER_C_BIGCORE1_PATH: " << GOVER_C_BIGCORE1_PATH << endl;
+        cout << "GOVER_C_MAXCORE1_PATH: " << GOVER_C_MAXCORE1_PATH << endl;
+        cout << "GOVER_C_MINCORE2_PATH: " << GOVER_C_MINCORE2_PATH << endl;
+        cout << "GOVER_C_MIDCORE2_PATH: " << GOVER_C_MIDCORE2_PATH << endl;
+        cout << "GOVER_C_BIGCORE2_PATH: " << GOVER_C_BIGCORE2_PATH << endl;
+        cout << "GOVER_C_MAXCORE2_PATH: " << GOVER_C_MAXCORE2_PATH << endl;
+        cout << "GOVER_C_MINCORE3_PATH: " << GOVER_C_MINCORE3_PATH << endl;
+        cout << "GOVER_C_MIDCORE3_PATH: " << GOVER_C_MIDCORE3_PATH << endl;
+        cout << "GOVER_C_BIGCORE3_PATH: " << GOVER_C_BIGCORE3_PATH << endl;
+        cout << "GOVER_C_MAXCORE3_PATH: " << GOVER_C_MAXCORE3_PATH << endl;
+
     }
 };
 

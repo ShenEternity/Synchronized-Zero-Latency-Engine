@@ -2,6 +2,7 @@
 #include "utils/szenext.hpp"
 #include <iostream>
 #include <thread>
+#include <unistd.h>
 int main(){
     Utils utils;
     SZENEXT sze;
@@ -9,11 +10,20 @@ int main(){
 
     utils.clearLog();
     sze.init();
-    std::thread re (&SZENEXT::Readx,&sze);
+    std::thread re (&SZENEXT::FREEQ,&sze);
+    sleep(3);
+    std::thread rg (&SZENEXT::GOVER,&sze);
+    sleep(3);
+    std::thread rgc (&SZENEXT::GOVERCONFIG,&sze);
+    rg.join();
+    rgc.join();
     re.join();
 /*     config.ReadName();
     config.ReadPolicy();
-    config.ReadConfig("performace");
+    config.ReadFreqConfig("performance");
+    config.ReadGoverConfig("performance");
+    config.ReadSetConfig();
+    config.ReadGoverConfigConfig("performance");
     config.printConfig(); */
 }
 
