@@ -134,8 +134,12 @@ public:
         if (file.is_open()) {
             json config;
             file >> config;
-            GOVER_C_MINCORE1 = config[Mode]["GoverConfig"]["MINCORE"]["Config1"];
-            GOVER_C_MIDCORE1 = config[Mode]["GoverConfig"]["MIDCORE"]["Config1"];
+            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Config1")) {
+                GOVER_C_MINCORE1 = config[Mode]["GoverConfig"]["MINCORE"]["Config1"];
+            }
+            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Config1")) {
+                GOVER_C_MIDCORE1 = config[Mode]["GoverConfig"]["MIDCORE"]["Config1"];
+            }
             if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Config1")) {
                 GOVER_C_BIGCORE1 = config[Mode]["GoverConfig"]["BIGCORE"]["Config1"];
             }
@@ -167,8 +171,12 @@ public:
                 GOVER_C_MAXCORE3 = config[Mode]["GoverConfig"]["MAXCORE"]["Config3"];
             }
 
-            GOVER_C_MINCORE1_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path1"];
-            GOVER_C_MIDCORE1_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path1"];
+            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Path1")) {
+                GOVER_C_MINCORE1_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path1"];
+            }
+            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Path1")) {
+                GOVER_C_MIDCORE1_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path1"];
+            }
             if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Path1")) {
                 GOVER_C_BIGCORE1_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path1"];
             }

@@ -10,10 +10,12 @@
 #include <sstream>
 #include <algorithm>
 #include <unordered_map>
+#include <condition_variable>
 #include <cstdio>
 #include <memory> 
 #include <unistd.h>
 #include <fcntl.h>
+#include <mutex>
 #include <sys/stat.h>
 #include <sys/inotify.h> 
 using namespace std;
@@ -32,6 +34,14 @@ public:
         FILE* file = fopen(logpath, "a");
         if (file != nullptr) {
             fprintf(file, "[%s] %s\n", buffer, message);
+            fclose(file);
+        }
+    }
+
+    void my_log(const char* messsge){
+        FILE* file = fopen(logpath, "a");
+        if (file != nullptr) {
+            fprintf(file,"%s\n", messsge);
             fclose(file);
         }
     }
