@@ -5,10 +5,10 @@
 ## SZE_NEXT#3.8Beta的配置写法
 
 ```json
-{
+{{
     "Name":{
         "name": "8100_MAX",
-        "lv": "3.0Beta",
+        "lv": "4.0",
         "Out": "ShenEternity"
     },
 
@@ -60,10 +60,21 @@
                 "Path3":"down_rate_limit_us",
                 "Config3":700
             }
+        },
+        "CPU_UCLAMP":{
+            "Background_cpu_uclamp_max":80,
+            "Background_cpu_uclamp_min":0,
+            "Top_app_cpu_uclamp_max":80,
+            "Top_app_cpu_uclamp_min":0,
+            "System-Background_cpu_uclamp_max":80,
+            "System-Background_cpu_uclamp_min":0,
+            "System_cpu_uclamp_max":80,
+            "System_cpu_uclamp_min":0,
+            "Foreground_cpu_uclamp_max":80,
+            "Foreground_cpu_uclamp_min":0
         }
 
     },
-
 
     "balance":{
         "FREQ":{
@@ -101,6 +112,18 @@
                 "Path3":"down_rate_limit_us",
                 "Config3":700
             }
+        },
+        "CPU_UCLAMP":{
+            "Background_cpu_uclamp_max":100,
+            "Background_cpu_uclamp_min":0,
+            "Top_app_cpu_uclamp_max":100,
+            "Top_app_cpu_uclamp_min":0,
+            "System-Background_cpu_uclamp_max":100,
+            "System-Background_cpu_uclamp_min":0,
+            "System_cpu_uclamp_max":100,
+            "System_cpu_uclamp_min":0,
+            "Foreground_cpu_uclamp_max":100,
+            "Foreground_cpu_uclamp_min":0
         }
     },
 
@@ -141,6 +164,18 @@
                 "Path3":"down_rate_limit_us",
                 "Config3":700
             }
+        },
+        "CPU_UCLAMP":{
+            "Background_cpu_uclamp_max":100,
+            "Background_cpu_uclamp_min":0,
+            "Top_app_cpu_uclamp_max":100,
+            "Top_app_cpu_uclamp_min":0,
+            "System-Background_cpu_uclamp_max":100,
+            "System-Background_cpu_uclamp_min":0,
+            "System_cpu_uclamp_max":100,
+            "System_cpu_uclamp_min":0,
+            "Foreground_cpu_uclamp_max":100,
+            "Foreground_cpu_uclamp_min":0
         }
     },
 
@@ -181,6 +216,18 @@
                 "Path3":"down_rate_limit_us",
                 "Config3":700
             }
+        },
+       "CPU_UCLAMP":{
+            "Background_cpu_uclamp_max":100,
+            "Background_cpu_uclamp_min":0,
+            "Top_app_cpu_uclamp_max":100,
+            "Top_app_cpu_uclamp_min":0,
+            "System-Background_cpu_uclamp_max":100,
+            "System-Background_cpu_uclamp_min":0,
+            "System_cpu_uclamp_max":100,
+            "System_cpu_uclamp_min":0,
+            "Foreground_cpu_uclamp_max":100,
+            "Foreground_cpu_uclamp_min":0
         }
     }
 }
@@ -258,6 +305,18 @@
                 "Path3":"down_rate_limit_us",
                 "Config3":700
             }
+        },
+        "CPU_UCLAMP":{                                      <----  CPU_UCLAMP字段
+            "Background_cpu_uclamp_max":80,
+            "Background_cpu_uclamp_min":0,
+            "Top_app_cpu_uclamp_max":80,
+            "Top_app_cpu_uclamp_min":0,
+            "System-Background_cpu_uclamp_max":80,
+            "System-Background_cpu_uclamp_min":0,           <----  微调  （这个我不知道怎么说，可以问ai）
+            "System_cpu_uclamp_max":80,
+            "System_cpu_uclamp_min":0,
+            "Foreground_cpu_uclamp_max":80,
+            "Foreground_cpu_uclamp_min":0
         }
 
     },
