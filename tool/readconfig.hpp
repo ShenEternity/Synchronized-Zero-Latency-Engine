@@ -27,13 +27,22 @@ public:
     string GOVER_MINCORE, GOVER_MIDCORE, GOVER_BIGCORE, GOVER_MAXCORE;
     int GOVER_C_MINCORE1, GOVER_C_MIDCORE1, GOVER_C_BIGCORE1, GOVER_C_MAXCORE1,
         GOVER_C_MINCORE2, GOVER_C_MIDCORE2, GOVER_C_BIGCORE2, GOVER_C_MAXCORE2,
-        GOVER_C_MINCORE3, GOVER_C_MIDCORE3, GOVER_C_BIGCORE3, GOVER_C_MAXCORE3;
+        GOVER_C_MINCORE3, GOVER_C_MIDCORE3, GOVER_C_BIGCORE3, GOVER_C_MAXCORE3,
+        GOVER_C_MINCORE4, GOVER_C_MIDCORE4, GOVER_C_BIGCORE4, GOVER_C_MAXCORE4,
+        GOVER_C_MINCORE5, GOVER_C_MIDCORE5, GOVER_C_BIGCORE5, GOVER_C_MAXCORE5,
+        GOVER_C_MINCORE6, GOVER_C_MIDCORE6, GOVER_C_BIGCORE6, GOVER_C_MAXCORE6,
+        GOVER_C_MINCORE7, GOVER_C_MIDCORE7, GOVER_C_BIGCORE7, GOVER_C_MAXCORE7,
+        GOVER_C_MINCORE8, GOVER_C_MIDCORE8, GOVER_C_BIGCORE8, GOVER_C_MAXCORE8;
+
 
     string GOVER_C_MINCORE1_PATH, GOVER_C_MIDCORE1_PATH, GOVER_C_BIGCORE1_PATH, GOVER_C_MAXCORE1_PATH,
            GOVER_C_MINCORE2_PATH, GOVER_C_MIDCORE2_PATH, GOVER_C_BIGCORE2_PATH, GOVER_C_MAXCORE2_PATH,
-           GOVER_C_MINCORE3_PATH, GOVER_C_MIDCORE3_PATH, GOVER_C_BIGCORE3_PATH, GOVER_C_MAXCORE3_PATH;
-
-
+           GOVER_C_MINCORE3_PATH, GOVER_C_MIDCORE3_PATH, GOVER_C_BIGCORE3_PATH, GOVER_C_MAXCORE3_PATH,
+           GOVER_C_MINCORE4_PATH, GOVER_C_MIDCORE4_PATH, GOVER_C_BIGCORE4_PATH, GOVER_C_MAXCORE4_PATH,
+           GOVER_C_MINCORE5_PATH, GOVER_C_MIDCORE5_PATH, GOVER_C_BIGCORE5_PATH, GOVER_C_MAXCORE5_PATH,
+           GOVER_C_MINCORE6_PATH, GOVER_C_MIDCORE6_PATH, GOVER_C_BIGCORE6_PATH, GOVER_C_MAXCORE6_PATH,
+           GOVER_C_MINCORE7_PATH, GOVER_C_MIDCORE7_PATH, GOVER_C_BIGCORE7_PATH, GOVER_C_MAXCORE7_PATH,
+           GOVER_C_MINCORE8_PATH, GOVER_C_MIDCORE8_PATH, GOVER_C_BIGCORE8_PATH, GOVER_C_MAXCORE8_PATH;
 
     void ReadName(){
         ifstream file(ConfigPath);
@@ -134,78 +143,88 @@ public:
         if (file.is_open()) {
             json config;
             file >> config;
-            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Config1")) {
-                GOVER_C_MINCORE1 = config[Mode]["GoverConfig"]["MINCORE"]["Config1"];
+
+            for (int i = 1; config[Mode]["GoverConfig"]["MINCORE"].contains("Config" + to_string(i)) ; i++) {
+                if (i == 1) GOVER_C_MINCORE1 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
+                else if (i == 2) GOVER_C_MINCORE2 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
+                else if (i == 3) GOVER_C_MINCORE3 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
+                else if (i == 4) GOVER_C_MINCORE4 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
+                else if (i == 5) GOVER_C_MINCORE5 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
+                else if (i == 6) GOVER_C_MINCORE6 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
+                else if (i == 7) GOVER_C_MINCORE7 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
+                else if (i == 8) GOVER_C_MINCORE8 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
             }
-            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Config1")) {
-                GOVER_C_MIDCORE1 = config[Mode]["GoverConfig"]["MIDCORE"]["Config1"];
+            for (int i = 1; config[Mode]["GoverConfig"]["MIDCORE"].contains("Config" + to_string(i)); i++) {
+                if (i == 1) GOVER_C_MIDCORE1 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
+                else if (i == 2) GOVER_C_MIDCORE2 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
+                else if (i == 3) GOVER_C_MIDCORE3 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
+                else if (i == 4) GOVER_C_MIDCORE4 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
+                else if (i == 5) GOVER_C_MIDCORE5 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
+                else if (i == 6) GOVER_C_MIDCORE6 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
+                else if (i == 7) GOVER_C_MIDCORE7 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
+                else if (i == 8) GOVER_C_MIDCORE8 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
             }
-            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Config1")) {
-                GOVER_C_BIGCORE1 = config[Mode]["GoverConfig"]["BIGCORE"]["Config1"];
+            for (int i = 1; config[Mode]["GoverConfig"]["BIGCORE"].contains("Config" + to_string(i)); i++) {
+                if (i == 1) GOVER_C_BIGCORE1 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
+                else if (i == 2) GOVER_C_BIGCORE2 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
+                else if (i == 3) GOVER_C_BIGCORE3 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
+                else if (i == 4) GOVER_C_BIGCORE4 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
+                else if (i == 5) GOVER_C_BIGCORE5 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
+                else if (i == 6) GOVER_C_BIGCORE6 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
+                else if (i == 7) GOVER_C_BIGCORE7 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
+                else if (i == 8) GOVER_C_BIGCORE8 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
             }
-            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Config1")) {
-                GOVER_C_MAXCORE1 = config[Mode]["GoverConfig"]["MAXCORE"]["Config1"];
-            }
-            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Config2")) {
-                GOVER_C_MINCORE2 = config[Mode]["GoverConfig"]["MINCORE"]["Config2"];
-            }
-            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Config2")) {
-                GOVER_C_MIDCORE2 = config[Mode]["GoverConfig"]["MIDCORE"]["Config2"];
-            }
-            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Config2")) {
-                GOVER_C_BIGCORE2 = config[Mode]["GoverConfig"]["BIGCORE"]["Config2"];
-            }
-            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Config2")) {
-                GOVER_C_MAXCORE2 = config[Mode]["GoverConfig"]["MAXCORE"]["Config2"];
-            }
-            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Config3")) {
-                GOVER_C_MINCORE3 = config[Mode]["GoverConfig"]["MINCORE"]["Config3"];
-            }
-            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Config3")) {
-                GOVER_C_MIDCORE3 = config[Mode]["GoverConfig"]["MIDCORE"]["Config3"];
-            }
-            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Config3")) {
-                GOVER_C_BIGCORE3 = config[Mode]["GoverConfig"]["BIGCORE"]["Config3"];
-            }
-            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Config3")) {
-                GOVER_C_MAXCORE3 = config[Mode]["GoverConfig"]["MAXCORE"]["Config3"];
+            for (int i = 1; config[Mode]["GoverConfig"]["MAXCORE"].contains("Config" + to_string(i)); i++) {
+                if (i == 1) GOVER_C_MAXCORE1 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
+                else if (i == 2) GOVER_C_MAXCORE2 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
+                else if (i == 3) GOVER_C_MAXCORE3 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
+                else if (i == 4) GOVER_C_MAXCORE4 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
+                else if (i == 5) GOVER_C_MAXCORE5 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
+                else if (i == 6) GOVER_C_MAXCORE6 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
+                else if (i == 7) GOVER_C_MAXCORE7 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
+                else if (i == 8) GOVER_C_MAXCORE8 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
             }
 
-            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Path1")) {
-                GOVER_C_MINCORE1_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path1"];
+
+            for (int i = 1; config[Mode]["GoverConfig"]["MINCORE"].contains("Path" + to_string(i)); i++) {
+                if (i == 1) GOVER_C_MINCORE1_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
+                else if (i == 2) GOVER_C_MINCORE2_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
+                else if (i == 3) GOVER_C_MINCORE3_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
+                else if (i == 4) GOVER_C_MINCORE4_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
+                else if (i == 5) GOVER_C_MINCORE5_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
+                else if (i == 6) GOVER_C_MINCORE6_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
+                else if (i == 7) GOVER_C_MINCORE7_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
+                else if (i == 8) GOVER_C_MINCORE8_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
             }
-            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Path1")) {
-                GOVER_C_MIDCORE1_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path1"];
+            for (int i = 1; config[Mode]["GoverConfig"]["MIDCORE"].contains("Path" + to_string(i)); i++) {
+                if (i == 1) GOVER_C_MIDCORE1_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
+                else if (i == 2) GOVER_C_MIDCORE2_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
+                else if (i == 3) GOVER_C_MIDCORE3_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
+                else if (i == 4) GOVER_C_MIDCORE4_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
+                else if (i == 5) GOVER_C_MIDCORE5_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
+                else if (i == 6) GOVER_C_MIDCORE6_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
+                else if (i == 7) GOVER_C_MIDCORE7_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
+                else if (i == 8) GOVER_C_MIDCORE8_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
             }
-            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Path1")) {
-                GOVER_C_BIGCORE1_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path1"];
+            for (int i = 1; config[Mode]["GoverConfig"]["BIGCORE"].contains("Path" + to_string(i)); i++) {
+                if (i == 1) GOVER_C_BIGCORE1_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
+                else if (i == 2) GOVER_C_BIGCORE2_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
+                else if (i == 3) GOVER_C_BIGCORE3_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
+                else if (i == 4) GOVER_C_BIGCORE4_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
+                else if (i == 5) GOVER_C_BIGCORE5_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
+                else if (i == 6) GOVER_C_BIGCORE6_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
+                else if (i == 7) GOVER_C_BIGCORE7_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
+                else if (i == 8) GOVER_C_BIGCORE8_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
             }
-            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Path1")) {
-                GOVER_C_MAXCORE1_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path1"];
-            }
-            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Path2")) {
-                GOVER_C_MINCORE2_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path2"];
-            }
-            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Path2")) {
-                GOVER_C_MIDCORE2_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path2"];
-            }
-            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Path2")) {
-                GOVER_C_BIGCORE2_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path2"];
-            }
-            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Path2")) {
-                GOVER_C_MAXCORE2_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path2"];
-            }
-            if (config[Mode]["GoverConfig"]["MINCORE"].contains("Path3")) {
-                GOVER_C_MINCORE3_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path3"];
-            }
-            if (config[Mode]["GoverConfig"]["MIDCORE"].contains("Path3")) {
-                GOVER_C_MIDCORE3_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path3"];
-            }
-            if (config[Mode]["GoverConfig"]["BIGCORE"].contains("Path3")) {
-                GOVER_C_BIGCORE3_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path3"];
-            }
-            if (config[Mode]["GoverConfig"]["MAXCORE"].contains("Path3")) {
-                GOVER_C_MAXCORE3_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path3"];
+            for (int i = 1; config[Mode]["GoverConfig"]["MAXCORE"].contains("Path" + to_string(i)); i++) {
+                if (i == 1) GOVER_C_MAXCORE1_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
+                else if (i == 2) GOVER_C_MAXCORE2_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
+                else if (i == 3) GOVER_C_MAXCORE3_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
+                else if (i == 4) GOVER_C_MAXCORE4_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
+                else if (i == 5) GOVER_C_MAXCORE5_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
+                else if (i == 6) GOVER_C_MAXCORE6_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
+                else if (i == 7) GOVER_C_MAXCORE7_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
+                else if (i == 8) GOVER_C_MAXCORE8_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
             }
             file.close();
         }

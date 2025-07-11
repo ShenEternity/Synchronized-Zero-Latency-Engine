@@ -45,6 +45,7 @@ public:
     Rconfig config;
     MODS mods;
 
+    string SZE_VERSION = "3.9Beta";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -172,6 +173,31 @@ public:
         utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE3_PATH), config.GOVER_C_MIDCORE3);
         utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE3_PATH), config.GOVER_C_BIGCORE3);
         utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE3_PATH), config.GOVER_C_MAXCORE3);
+
+        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE4_PATH), config.GOVER_C_MINCORE4);
+        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE4_PATH), config.GOVER_C_MIDCORE4);
+        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE4_PATH), config.GOVER_C_BIGCORE4);
+        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE4_PATH), config.GOVER_C_MAXCORE4);
+
+        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE5_PATH), config.GOVER_C_MINCORE5);
+        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE5_PATH), config.GOVER_C_MIDCORE5);
+        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE5_PATH), config.GOVER_C_BIGCORE5);
+        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE5_PATH), config.GOVER_C_MAXCORE5);
+
+        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE6_PATH), config.GOVER_C_MINCORE6);
+        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE6_PATH), config.GOVER_C_MIDCORE6);
+        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE6_PATH), config.GOVER_C_BIGCORE6);
+        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE6_PATH), config.GOVER_C_MAXCORE6);
+
+        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE7_PATH), config.GOVER_C_MINCORE7);
+        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE7_PATH), config.GOVER_C_MIDCORE7);
+        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE7_PATH), config.GOVER_C_BIGCORE7);
+        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE7_PATH), config.GOVER_C_MAXCORE7);
+
+        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE8_PATH), config.GOVER_C_MINCORE8);
+        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE8_PATH), config.GOVER_C_MIDCORE8);
+        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE8_PATH), config.GOVER_C_BIGCORE8);
+        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE8_PATH), config.GOVER_C_MAXCORE8);
     }
 
 
@@ -181,6 +207,7 @@ public:
         utils.my_log("***********************************************");
         utils.my_log("ShenEternity祝你使用愉快！\n");
         utils.log("SZE_NEXT已加载");
+        utils.log(("******SZE_NEXT版本：" + SZE_VERSION).c_str());
         config.ReadName();
         utils.log(("******调度配置：" + config.name).c_str());
         utils.log(("******配置版本：" + config.lv).c_str());
