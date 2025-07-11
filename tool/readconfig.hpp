@@ -44,6 +44,10 @@ public:
            GOVER_C_MINCORE7_PATH, GOVER_C_MIDCORE7_PATH, GOVER_C_BIGCORE7_PATH, GOVER_C_MAXCORE7_PATH,
            GOVER_C_MINCORE8_PATH, GOVER_C_MIDCORE8_PATH, GOVER_C_BIGCORE8_PATH, GOVER_C_MAXCORE8_PATH;
 
+    int BACK_C_UCLAMP_MAX, BACK_C_UCLAMP_MIN, TOP_APP_C_UCLAMP_MAX, TOP_APP_C_UCLAMP_MIN,
+        S_BACK_C_UCLAMP_MAX, S_BACK_C_UCLAMP_MIN, SYS_C_UCLAMP_MAX, SYS_C_UCLAMP_MIN,
+        F_C_UCLAMP_MAX, F_C_UCLAMP_MIN;
+
     void ReadName(){
         ifstream file(ConfigPath);
         if(file.is_open()){
@@ -228,8 +232,24 @@ public:
             }
             file.close();
         }
-        else {
-            utils.log("配置文件无法打开");
+    }
+
+    void ReadUclamp(string Mode){
+        ifstream file (ConfigPath);
+        if (file.is_open()) {
+            json config;
+            file >> config;
+            BACK_C_UCLAMP_MAX = config[Mode]["CPU_UCLAMP"]["Background_cpu_uclamp_max"];
+            BACK_C_UCLAMP_MIN = config[Mode]["CPU_UCLAMP"]["Background_cpu_uclamp_min"];
+            TOP_APP_C_UCLAMP_MAX = config[Mode]["CPU_UCLAMP"]["Top_app_cpu_uclamp_max"];
+            TOP_APP_C_UCLAMP_MIN = config[Mode]["CPU_UCLAMP"]["Top_app_cpu_uclamp_min"];
+            S_BACK_C_UCLAMP_MAX = config[Mode]["CPU_UCLAMP"]["System-Background_cpu_uclamp_max"];
+            S_BACK_C_UCLAMP_MIN = config[Mode]["CPU_UCLAMP"]["System-Background_cpu_uclamp_min"];
+            SYS_C_UCLAMP_MAX = config[Mode]["CPU_UCLAMP"]["System_cpu_uclamp_max"];
+            SYS_C_UCLAMP_MIN = config[Mode]["CPU_UCLAMP"]["System_cpu_uclamp_min"];
+            F_C_UCLAMP_MAX = config[Mode]["CPU_UCLAMP"]["Foreground_cpu_uclamp_max"];
+            F_C_UCLAMP_MIN = config[Mode]["CPU_UCLAMP"]["Foreground_cpu_uclamp_min"];
+            file.close();
         }
     }
 

@@ -45,7 +45,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "3.9Beta";
+    string SZE_VERSION = "4.0";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -72,7 +72,9 @@ public:
                     Mods = std::move(modes);
 
                     config.ReadFreqConfig(Mods);
+                    config.ReadUclamp(Mods);
                     FREQPDMODS();
+                    UCLAMP();
                     if (Mods != Mtemp) {
                         Mtemp = Mods;
                         utils.log(("模式更新："+ Mods).c_str());
@@ -198,6 +200,19 @@ public:
         utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE8_PATH), config.GOVER_C_MIDCORE8);
         utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE8_PATH), config.GOVER_C_BIGCORE8);
         utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE8_PATH), config.GOVER_C_MAXCORE8);
+    }
+
+    void UCLAMP(){
+        utils.Writer("/dev/cpuctl/background/cpu.uclamp.max", config.BACK_C_UCLAMP_MAX);
+        utils.Writer("/dev/cpuctl/background/cpu.uclamp.min", config.BACK_C_UCLAMP_MIN);
+        utils.Writer("/dev/cpuctl/top-app/cpu.uclamp.max", config.TOP_APP_C_UCLAMP_MAX);
+        utils.Writer("/dev/cpuctl/top-app/cpu.uclamp.min", config.TOP_APP_C_UCLAMP_MIN);
+        utils.Writer("/dev/cpuctl/system-background/cpu.uclamp.max", config.S_BACK_C_UCLAMP_MAX);
+        utils.Writer("/dev/cpuctl/system-background/cpu.uclamp.min", config.S_BACK_C_UCLAMP_MIN);
+        utils.Writer("/dev/cpuctl/system/cpu.uclamp.max", config.SYS_C_UCLAMP_MAX);
+        utils.Writer("/dev/cpuctl/system/cpu.uclamp.min", config.SYS_C_UCLAMP_MIN);
+        utils.Writer("/dev/cpuctl/foreground/cpu.uclamp.max", config.F_C_UCLAMP_MAX);
+        utils.Writer("/dev/cpuctl/foreground/cpu.uclamp.min", config.F_C_UCLAMP_MIN);
     }
 
 
