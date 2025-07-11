@@ -272,7 +272,7 @@
             "BIGCORE":"sugov_ext",      <----  大核调速器         <----   如果你的Policy只有3个请将后面的删掉
             "MAXCORE":"sugov_ext"       <----  超大核调速器
         },
-        "GoverConfig":{                         <----  GoverConfig字段   调速器参数    月月哟哟有有有的有的调速器有参数，有的没有，没有可直接删掉，比如我的大核，也就是 BIGCORE 用的是 performance 调速器， 这个调速器在我这没有参数，所以，可以把 BIGCORE 里面的全部删掉。  注意，调速器参数超过3个就不行了现在只支持3个。
+        "GoverConfig":{                         <----  GoverConfig字段   调速器参数    月月哟哟有有有的有的调速器有参数，有的没有，没有可直接删掉，比如我的大核，也就是 BIGCORE 用的是 performance 调速器， 这个调速器在我这没有参数，所以，可以把 BIGCORE 里面的全部删掉。  注意，调速器参数超过8个就不行了现在只支持8个。
             "MINCORE":{
                 "Path1":"up_rate_limit_us",     <---- 调速器参数名  可以在  /sys/devices/system/cpu/cpufreq/Policy + 数字 + 调速器名  里面找到   例如：/sys/devices/system/cpu/cpufreq/Policy0/sugov_ext/
                 "Config1":1000,                 <---- 调速器参数   可以在  /sys/devices/system/cpu/cpufreq/Policy + 数字 + 调速器名 + 参数名  里面看到，自行上网搜索各个参数的作用即可
