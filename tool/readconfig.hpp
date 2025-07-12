@@ -48,6 +48,9 @@ public:
         S_BACK_C_UCLAMP_MAX, S_BACK_C_UCLAMP_MIN, SYS_C_UCLAMP_MAX, SYS_C_UCLAMP_MIN,
         F_C_UCLAMP_MAX, F_C_UCLAMP_MIN;
 
+    
+    string CPUSET_Background, CPUSET_Top_app, CPUSET_System_Background, CPUSET_System, CPUSET_Foreground;
+
     void ReadName(){
         ifstream file(ConfigPath);
         if(file.is_open()){
@@ -249,6 +252,11 @@ public:
             SYS_C_UCLAMP_MIN = config[Mode]["CPU_UCLAMP"]["System_cpu_uclamp_min"];
             F_C_UCLAMP_MAX = config[Mode]["CPU_UCLAMP"]["Foreground_cpu_uclamp_max"];
             F_C_UCLAMP_MIN = config[Mode]["CPU_UCLAMP"]["Foreground_cpu_uclamp_min"];
+            CPUSET_Background = config[Mode]["CPUSET"]["Background"];
+            CPUSET_Top_app = config[Mode]["CPUSET"]["Top_app"];
+            CPUSET_System_Background = config[Mode]["CPUSET"]["System-Background"];
+            CPUSET_System = config[Mode]["CPUSET"]["System"];
+            CPUSET_Foreground = config[Mode]["CPUSET"]["Foreground"];
             file.close();
         }
     }

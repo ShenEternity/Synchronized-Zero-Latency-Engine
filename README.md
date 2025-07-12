@@ -5,10 +5,10 @@
 ## SZE_NEXT#3.8Beta的配置写法
 
 ```json
-{{
+{
     "Name":{
         "name": "8100_MAX",
-        "lv": "4.0",
+        "lv": "3.0Beta",
         "Out": "ShenEternity"
     },
 
@@ -72,6 +72,13 @@
             "System_cpu_uclamp_min":0,
             "Foreground_cpu_uclamp_max":80,
             "Foreground_cpu_uclamp_min":0
+        },
+        "CPUSET":{
+            "Background":"0-3",
+            "Top_app":"0-7",
+            "System-Background":"0-3",
+            "System":"0-3",
+            "Foreground":"0-6"
         }
 
     },
@@ -124,6 +131,13 @@
             "System_cpu_uclamp_min":0,
             "Foreground_cpu_uclamp_max":100,
             "Foreground_cpu_uclamp_min":0
+        },
+        "CPUSET":{
+            "Background":"0-3",
+            "Top_app":"0-7",
+            "System-Background":"0-3",
+            "System":"0-3",
+            "Foreground":"0-6"
         }
     },
 
@@ -176,6 +190,13 @@
             "System_cpu_uclamp_min":0,
             "Foreground_cpu_uclamp_max":100,
             "Foreground_cpu_uclamp_min":0
+        },
+        "CPUSET":{
+            "Background":"0-2",
+            "Top_app":"0-7",
+            "System-Background":"0-3",
+            "System":"0-3",
+            "Foreground":"0-5"
         }
     },
 
@@ -228,6 +249,13 @@
             "System_cpu_uclamp_min":0,
             "Foreground_cpu_uclamp_max":100,
             "Foreground_cpu_uclamp_min":0
+        },
+        "CPUSET":{
+            "Background":"0-1",
+            "Top_app":"0-7",
+            "System-Background":"0-2",
+            "System":"0-3",
+            "Foreground":"0-5"
         }
     }
 }
@@ -317,6 +345,13 @@
             "System_cpu_uclamp_min":0,
             "Foreground_cpu_uclamp_max":80,
             "Foreground_cpu_uclamp_min":0
+        },
+        "CPUSET":{                                          <----  CPUSET字段
+            "Background":"0-3",                                 <----  后台使用的cpu核心数
+            "Top_app":"0-7",                                    <----  顶层使用的cpu核心数
+            "System-Background":"0-3",                          <----  系统后台使用的cpu核心数
+            "System":"0-3",                                     <----  系统使用的cpu核心数
+            "Foreground":"0-6"                                  <----  前台使用的cpu核心数
         }
 
     },

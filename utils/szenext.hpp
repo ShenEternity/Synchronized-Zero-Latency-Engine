@@ -45,7 +45,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.0";
+    string SZE_VERSION = "4.1";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -213,6 +213,11 @@ public:
         utils.Writer("/dev/cpuctl/system/cpu.uclamp.min", config.SYS_C_UCLAMP_MIN);
         utils.Writer("/dev/cpuctl/foreground/cpu.uclamp.max", config.F_C_UCLAMP_MAX);
         utils.Writer("/dev/cpuctl/foreground/cpu.uclamp.min", config.F_C_UCLAMP_MIN);
+        utils.Writer("/dev/cpuset/background/cpus", config.CPUSET_Background);
+        utils.Writer("/dev/cpuset/top-app/cpus", config.CPUSET_Top_app);
+        utils.Writer("/dev/cpuset/system-background/cpus", config.CPUSET_System_Background);
+        utils.Writer("/dev/cpuset/system/cpus", config.CPUSET_System);
+        utils.Writer("/dev/cpuset/foreground/cpus", config.CPUSET_Foreground);
     }
 
 
