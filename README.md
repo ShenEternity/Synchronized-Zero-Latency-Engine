@@ -2,7 +2,7 @@
 一个简单的调度
 
 
-## SZE_NEXT#3.8Beta的配置写法
+## SZE_NEXT#4.1的配置写法
 
 ```json
 {
