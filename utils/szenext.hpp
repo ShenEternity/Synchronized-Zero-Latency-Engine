@@ -6,6 +6,7 @@
 #include "../tool/mods.hpp"
 #include "utils.hpp"
 #include "unistd.h"
+#include <chrono>
 #include <condition_variable>
 #include <fstream>
 #include <iostream>
@@ -14,26 +15,25 @@
 #include <string>
 #include <sys/inotify.h>
 #include <thread>
+#include <atomic>
 using namespace std;
 
 class Semaphore{
 private:
-    mutex mtx;
-    condition_variable cv;
-    int count;
+    atomic<bool> a;
 public:
-    Semaphore(int initial = 0) : count(initial) {};
+    Semaphore(bool onf){
+        a.store(onf);
+    };
 
     void release(){
-        unique_lock<mutex> lock(mtx);
-        ++count;
-        cv.notify_all();
+        a.store(true);
     }
 
-    void acquire(){
-        unique_lock<mutex> lock(mtx);
-        cv.wait(lock, [this] {return count > 0; });
-        --count;
+    void acquire()
+    {
+        std::this_thread::sleep_for(chrono::milliseconds(a));
+        a.store(false);
     }
 
 };
