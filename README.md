@@ -2,13 +2,13 @@
 一个简单的调度
 
 
-## SZE_NEXT#4.1的配置写法
+## SZE_NEXT#4.2的配置写法
 
 ```json
 {
     "Name":{
         "name": "8100_MAX",
-        "lv": "3.0Beta",
+        "lv": "4.2",
         "Out": "ShenEternity"
     },
 
@@ -79,6 +79,9 @@
             "System-Background":"0-3",
             "System":"0-3",
             "Foreground":"0-6"
+        },
+        "EAS":{
+            "EAS_Enable":true
         }
 
     },
@@ -138,7 +141,11 @@
             "System-Background":"0-3",
             "System":"0-3",
             "Foreground":"0-6"
+        },
+        "EAS":{
+            "EAS_Enable":true
         }
+
     },
 
 
@@ -197,7 +204,11 @@
             "System-Background":"0-3",
             "System":"0-3",
             "Foreground":"0-5"
+        },
+        "EAS":{
+            "EAS_Enable":true
         }
+
     },
 
 
@@ -256,6 +267,9 @@
             "System-Background":"0-2",
             "System":"0-3",
             "Foreground":"0-5"
+        },
+        "EAS":{
+            "EAS_Enable":true
         }
     }
 }
@@ -352,6 +366,9 @@
             "System-Background":"0-3",                          <----  系统后台使用的cpu核心数
             "System":"0-3",                                     <----  系统使用的cpu核心数
             "Foreground":"0-6"                                  <----  前台使用的cpu核心数
+        }，
+        "EAS":{                                                 <----  EAS字段
+            "EAS_Enable":true                                   <----- 开关，打游戏建议关
         }
 
     },

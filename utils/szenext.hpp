@@ -20,20 +20,22 @@ using namespace std;
 
 class Semaphore{
 private:
-    atomic<bool> a;
+    mutex mtx;
+    condition_variable cv;
+    int count;
 public:
-    Semaphore(bool onf){
-        a.store(onf);
-    };
+    Semaphore(int initial = 0) : count(initial) {};
 
     void release(){
-        a.store(true);
+        unique_lock<mutex> lock(mtx);
+        ++count;
+        cv.notify_all();
     }
 
-    void acquire()
-    {
-        std::this_thread::sleep_for(chrono::milliseconds(a));
-        a.store(false);
+    void acquire(){
+        unique_lock<mutex> lock(mtx);
+        cv.wait(lock, [this] {return count > 0; });
+        --count;
     }
 
 };
@@ -45,7 +47,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.1";
+    string SZE_VERSION = "4.2";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -151,6 +153,7 @@ public:
         utils.Writer(GETFreqPath(config.policy2), config.FREQ_MIDCORE);
         utils.Writer(GETFreqPath(config.policy3), config.FREQ_BIGCORE);
         utils.Writer(GETFreqPath(config.policy4), config.FREQ_MAXCORE);
+        utils.Writer("/proc/sys/kernel/sched_energy_aware",config.EAS_Enable);
     }
 
     void GOVERPDMODS(){
@@ -232,6 +235,7 @@ public:
         utils.log(("******调度配置：" + config.name).c_str());
         utils.log(("******配置版本：" + config.lv).c_str());
         utils.log(("******配置作者：" + config.Out).c_str());
+        
     }
 
 };

@@ -51,6 +51,8 @@ public:
     
     string CPUSET_Background, CPUSET_Top_app, CPUSET_System_Background, CPUSET_System, CPUSET_Foreground;
 
+    bool EAS_Enable;
+
     void ReadName(){
         ifstream file(ConfigPath);
         if(file.is_open()){
@@ -116,6 +118,7 @@ public:
             if (config[Mode]["FREQ"].contains("MAXCORE")) {
                 FREQ_MAXCORE = config[Mode]["FREQ"]["MAXCORE"];
             }
+            EAS_Enable = config[Mode]["EAS"]["EAS_Enable"];
             file.close();
         }
         else {
