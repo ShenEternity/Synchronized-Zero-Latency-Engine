@@ -8,13 +8,14 @@
 {
     "Name":{
         "name": "8100_MAX",
-        "lv": "4.2",
+        "lv": "4.3",
         "Out": "ShenEternity"
     },
 
     "SetConfig":{
         "SetGover":true,
-        "SetGoverConfig":true
+        "SetGoverConfig":true,
+        "OifaceAndJoyoset":true
     },
 
     "Policy":{
@@ -287,6 +288,7 @@
     "SetConfig":{
         "SetGover":true,       <---- 自定义调速器开关  true为开   false为关
         "SetGoverConfig":true  <---- 自定义调速器参数开关  true为开   false为关    <----   只能填true或false
+        "OifaceAndJoyoset":true<---- 屏蔽官调
     },
 
 
