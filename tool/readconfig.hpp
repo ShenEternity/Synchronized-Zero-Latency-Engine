@@ -19,7 +19,7 @@ class Rconfig{
 public:
     const char* ConfigPath = "/storage/emulated/0/Android/SZE_NEXT/config.json";
     string name, lv, Out;
-    bool SetGoverConfig,SetGover;
+    bool SetGoverConfig,SetGover,OifaceAndJoyose;
     Utils utils;
 
     string policy1,policy2,policy3,policy4;
@@ -76,6 +76,7 @@ public:
             file >> config;
             SetGoverConfig = config["SetConfig"]["SetGoverConfig"];
             SetGover = config["SetConfig"]["SetGover"];
+            OifaceAndJoyose = config["SetConfig"]["OifaceAndJoyose"];
             file.close();
         }
         else {

@@ -3,6 +3,7 @@
 #include "utils/szenext.hpp"
 #include <algorithm>
 #include <cstdio>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -31,7 +32,6 @@ int main(){
     bool Enadle_n2 = config.SetGover;
     bool Enadle_n3 = config.SetGoverConfig;
 
-
     std::thread sze1, sze2, sze3;
 
     if (Enadle_n1) {
@@ -42,6 +42,11 @@ int main(){
     }
     if (Enadle_n3) {
         sze3 = std::thread(&SZENEXT::GOVERCONFIG, &sze, Enadle_n1, Enadle_n2);
+    }
+    if (config.OifaceAndJoyose) {
+        system("pm disable-user com.xiaomi.joyose; pm clear com.xiaomi.joyose");
+        system("[ -n \"$(getprop persist.sys.oiface.enable)\" ] && setprop persist.sys.oiface.enable 0");
+        utils.log("已禁用Joyose/Oiface");
     }
     sze1.join();
     sze2.join();

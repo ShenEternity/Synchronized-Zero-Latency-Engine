@@ -47,7 +47,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.2";
+    string SZE_VERSION = "4.3";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
