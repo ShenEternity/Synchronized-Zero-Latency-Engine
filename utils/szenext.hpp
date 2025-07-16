@@ -47,7 +47,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.3";
+    string SZE_VERSION = "4.4";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -164,45 +164,18 @@ public:
     }
 
     void GOVERCONFIGPDMODS(){
-        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE1_PATH), config.GOVER_C_MINCORE1);
-        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE1_PATH), config.GOVER_C_MIDCORE1);
-        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE1_PATH), config.GOVER_C_BIGCORE1);
-        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE1_PATH), config.GOVER_C_MAXCORE1);
-
-        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE2_PATH), config.GOVER_C_MINCORE2);
-        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE2_PATH), config.GOVER_C_MIDCORE2);
-        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE2_PATH), config.GOVER_C_BIGCORE2);
-        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE2_PATH), config.GOVER_C_MAXCORE2);
-
-        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE3_PATH), config.GOVER_C_MINCORE3);
-        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE3_PATH), config.GOVER_C_MIDCORE3);
-        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE3_PATH), config.GOVER_C_BIGCORE3);
-        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE3_PATH), config.GOVER_C_MAXCORE3);
-
-        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE4_PATH), config.GOVER_C_MINCORE4);
-        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE4_PATH), config.GOVER_C_MIDCORE4);
-        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE4_PATH), config.GOVER_C_BIGCORE4);
-        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE4_PATH), config.GOVER_C_MAXCORE4);
-
-        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE5_PATH), config.GOVER_C_MINCORE5);
-        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE5_PATH), config.GOVER_C_MIDCORE5);
-        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE5_PATH), config.GOVER_C_BIGCORE5);
-        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE5_PATH), config.GOVER_C_MAXCORE5);
-
-        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE6_PATH), config.GOVER_C_MINCORE6);
-        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE6_PATH), config.GOVER_C_MIDCORE6);
-        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE6_PATH), config.GOVER_C_BIGCORE6);
-        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE6_PATH), config.GOVER_C_MAXCORE6);
-
-        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE7_PATH), config.GOVER_C_MINCORE7);
-        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE7_PATH), config.GOVER_C_MIDCORE7);
-        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE7_PATH), config.GOVER_C_BIGCORE7);
-        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE7_PATH), config.GOVER_C_MAXCORE7);
-
-        utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GOVER_C_MINCORE8_PATH), config.GOVER_C_MINCORE8);
-        utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GOVER_C_MIDCORE8_PATH), config.GOVER_C_MIDCORE8);
-        utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GOVER_C_BIGCORE8_PATH), config.GOVER_C_BIGCORE8);
-        utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GOVER_C_MAXCORE8_PATH), config.GOVER_C_MAXCORE8);
+        for (int s = 0; s < config.GOVERCONFIGMIN; s++) {
+            utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GoverConfigPathMIN[s]),config.GoverConfigPathMIN[s]);
+        }
+        for (int s = 0; s < config.GOVERCONFIGMID; s++) {
+            utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GoverConfigPathMID[s]),config.GoverConfigPathMID[s]);
+        }
+        for (int s = 0; s < config.GOVERCONFIGBIG; s++) {
+            utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GoverConfigPathBIG[s]),config.GoverConfigPathBIG[s]);
+        }
+        for (int s = 0; s < config.GOVERCONFIGMAX; s++) {
+            utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GoverConfigPathMAX[s]),config.GoverConfigPathMAX[s]);
+        }
     }
 
     void UCLAMP(){

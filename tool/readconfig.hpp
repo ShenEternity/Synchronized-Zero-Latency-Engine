@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <unistd.h>
+#include <vector>
 #include "json.hpp"
 #include "../utils/utils.hpp"
 
@@ -25,24 +26,7 @@ public:
     string policy1,policy2,policy3,policy4;
     int FREQ_MINCORE, FREQ_MIDCORE, FREQ_BIGCORE, FREQ_MAXCORE;
     string GOVER_MINCORE, GOVER_MIDCORE, GOVER_BIGCORE, GOVER_MAXCORE;
-    int GOVER_C_MINCORE1, GOVER_C_MIDCORE1, GOVER_C_BIGCORE1, GOVER_C_MAXCORE1,
-        GOVER_C_MINCORE2, GOVER_C_MIDCORE2, GOVER_C_BIGCORE2, GOVER_C_MAXCORE2,
-        GOVER_C_MINCORE3, GOVER_C_MIDCORE3, GOVER_C_BIGCORE3, GOVER_C_MAXCORE3,
-        GOVER_C_MINCORE4, GOVER_C_MIDCORE4, GOVER_C_BIGCORE4, GOVER_C_MAXCORE4,
-        GOVER_C_MINCORE5, GOVER_C_MIDCORE5, GOVER_C_BIGCORE5, GOVER_C_MAXCORE5,
-        GOVER_C_MINCORE6, GOVER_C_MIDCORE6, GOVER_C_BIGCORE6, GOVER_C_MAXCORE6,
-        GOVER_C_MINCORE7, GOVER_C_MIDCORE7, GOVER_C_BIGCORE7, GOVER_C_MAXCORE7,
-        GOVER_C_MINCORE8, GOVER_C_MIDCORE8, GOVER_C_BIGCORE8, GOVER_C_MAXCORE8;
 
-
-    string GOVER_C_MINCORE1_PATH, GOVER_C_MIDCORE1_PATH, GOVER_C_BIGCORE1_PATH, GOVER_C_MAXCORE1_PATH,
-           GOVER_C_MINCORE2_PATH, GOVER_C_MIDCORE2_PATH, GOVER_C_BIGCORE2_PATH, GOVER_C_MAXCORE2_PATH,
-           GOVER_C_MINCORE3_PATH, GOVER_C_MIDCORE3_PATH, GOVER_C_BIGCORE3_PATH, GOVER_C_MAXCORE3_PATH,
-           GOVER_C_MINCORE4_PATH, GOVER_C_MIDCORE4_PATH, GOVER_C_BIGCORE4_PATH, GOVER_C_MAXCORE4_PATH,
-           GOVER_C_MINCORE5_PATH, GOVER_C_MIDCORE5_PATH, GOVER_C_BIGCORE5_PATH, GOVER_C_MAXCORE5_PATH,
-           GOVER_C_MINCORE6_PATH, GOVER_C_MIDCORE6_PATH, GOVER_C_BIGCORE6_PATH, GOVER_C_MAXCORE6_PATH,
-           GOVER_C_MINCORE7_PATH, GOVER_C_MIDCORE7_PATH, GOVER_C_BIGCORE7_PATH, GOVER_C_MAXCORE7_PATH,
-           GOVER_C_MINCORE8_PATH, GOVER_C_MIDCORE8_PATH, GOVER_C_BIGCORE8_PATH, GOVER_C_MAXCORE8_PATH;
 
     int BACK_C_UCLAMP_MAX, BACK_C_UCLAMP_MIN, TOP_APP_C_UCLAMP_MAX, TOP_APP_C_UCLAMP_MIN,
         S_BACK_C_UCLAMP_MAX, S_BACK_C_UCLAMP_MIN, SYS_C_UCLAMP_MAX, SYS_C_UCLAMP_MIN,
@@ -50,6 +34,22 @@ public:
 
     
     string CPUSET_Background, CPUSET_Top_app, CPUSET_System_Background, CPUSET_System, CPUSET_Foreground;
+
+    vector<int> GoverConfigMIN;
+    vector<int> GoverConfigMID;
+    vector<int> GoverConfigBIG;
+    vector<int> GoverConfigMAX;
+    vector<string> GoverConfigPathMIN;
+    vector<string> GoverConfigPathMID;
+    vector<string> GoverConfigPathBIG;
+    vector<string> GoverConfigPathMAX;
+
+    int GOVERCONFIGMIN = 0;
+    int GOVERCONFIGMID = 0;
+    int GOVERCONFIGBIG = 0;
+    int GOVERCONFIGMAX = 0;
+
+
 
     bool EAS_Enable;
 
@@ -154,88 +154,36 @@ public:
         if (file.is_open()) {
             json config;
             file >> config;
-
             for (int i = 1; config[Mode]["GoverConfig"]["MINCORE"].contains("Config" + to_string(i)) ; i++) {
-                if (i == 1) GOVER_C_MINCORE1 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
-                else if (i == 2) GOVER_C_MINCORE2 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
-                else if (i == 3) GOVER_C_MINCORE3 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
-                else if (i == 4) GOVER_C_MINCORE4 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
-                else if (i == 5) GOVER_C_MINCORE5 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
-                else if (i == 6) GOVER_C_MINCORE6 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
-                else if (i == 7) GOVER_C_MINCORE7 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
-                else if (i == 8) GOVER_C_MINCORE8 = config[Mode]["GoverConfig"]["MINCORE"]["Config" + to_string(i)];
+                GoverConfigMIN.push_back(config[Mode]["GoverConfig"]["MINCORE"]["Config" +  to_string(i)]);
+                GOVERCONFIGMIN ++;
             }
             for (int i = 1; config[Mode]["GoverConfig"]["MIDCORE"].contains("Config" + to_string(i)); i++) {
-                if (i == 1) GOVER_C_MIDCORE1 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
-                else if (i == 2) GOVER_C_MIDCORE2 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
-                else if (i == 3) GOVER_C_MIDCORE3 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
-                else if (i == 4) GOVER_C_MIDCORE4 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
-                else if (i == 5) GOVER_C_MIDCORE5 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
-                else if (i == 6) GOVER_C_MIDCORE6 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
-                else if (i == 7) GOVER_C_MIDCORE7 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
-                else if (i == 8) GOVER_C_MIDCORE8 = config[Mode]["GoverConfig"]["MIDCORE"]["Config" + to_string(i)];
+                GoverConfigMID.push_back(config[Mode]["GoverConfig"]["MIDCORE"]["Config" +  to_string(i)]);
+                GOVERCONFIGMID ++;
             }
             for (int i = 1; config[Mode]["GoverConfig"]["BIGCORE"].contains("Config" + to_string(i)); i++) {
-                if (i == 1) GOVER_C_BIGCORE1 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
-                else if (i == 2) GOVER_C_BIGCORE2 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
-                else if (i == 3) GOVER_C_BIGCORE3 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
-                else if (i == 4) GOVER_C_BIGCORE4 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
-                else if (i == 5) GOVER_C_BIGCORE5 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
-                else if (i == 6) GOVER_C_BIGCORE6 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
-                else if (i == 7) GOVER_C_BIGCORE7 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
-                else if (i == 8) GOVER_C_BIGCORE8 = config[Mode]["GoverConfig"]["BIGCORE"]["Config" + to_string(i)];
+                GoverConfigBIG.push_back(config[Mode]["GoverConfig"]["BIGCORE"]["Config" +  to_string(i)]);
+                GOVERCONFIGBIG ++;
             }
             for (int i = 1; config[Mode]["GoverConfig"]["MAXCORE"].contains("Config" + to_string(i)); i++) {
-                if (i == 1) GOVER_C_MAXCORE1 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
-                else if (i == 2) GOVER_C_MAXCORE2 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
-                else if (i == 3) GOVER_C_MAXCORE3 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
-                else if (i == 4) GOVER_C_MAXCORE4 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
-                else if (i == 5) GOVER_C_MAXCORE5 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
-                else if (i == 6) GOVER_C_MAXCORE6 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
-                else if (i == 7) GOVER_C_MAXCORE7 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
-                else if (i == 8) GOVER_C_MAXCORE8 = config[Mode]["GoverConfig"]["MAXCORE"]["Config" + to_string(i)];
+                GoverConfigMAX.push_back(config[Mode]["GoverConfig"]["MAXCORE"]["Config" +  to_string(i)]);
+                GOVERCONFIGMAX ++;
             }
 
 
             for (int i = 1; config[Mode]["GoverConfig"]["MINCORE"].contains("Path" + to_string(i)); i++) {
-                if (i == 1) GOVER_C_MINCORE1_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
-                else if (i == 2) GOVER_C_MINCORE2_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
-                else if (i == 3) GOVER_C_MINCORE3_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
-                else if (i == 4) GOVER_C_MINCORE4_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
-                else if (i == 5) GOVER_C_MINCORE5_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
-                else if (i == 6) GOVER_C_MINCORE6_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
-                else if (i == 7) GOVER_C_MINCORE7_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
-                else if (i == 8) GOVER_C_MINCORE8_PATH = config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)];
+                GoverConfigPathMIN.push_back(config[Mode]["GoverConfig"]["MINCORE"]["Path" + to_string(i)]);
             }
             for (int i = 1; config[Mode]["GoverConfig"]["MIDCORE"].contains("Path" + to_string(i)); i++) {
-                if (i == 1) GOVER_C_MIDCORE1_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
-                else if (i == 2) GOVER_C_MIDCORE2_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
-                else if (i == 3) GOVER_C_MIDCORE3_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
-                else if (i == 4) GOVER_C_MIDCORE4_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
-                else if (i == 5) GOVER_C_MIDCORE5_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
-                else if (i == 6) GOVER_C_MIDCORE6_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
-                else if (i == 7) GOVER_C_MIDCORE7_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
-                else if (i == 8) GOVER_C_MIDCORE8_PATH = config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)];
+                GoverConfigPathMID.push_back(config[Mode]["GoverConfig"]["MIDCORE"]["Path" + to_string(i)]);
             }
             for (int i = 1; config[Mode]["GoverConfig"]["BIGCORE"].contains("Path" + to_string(i)); i++) {
-                if (i == 1) GOVER_C_BIGCORE1_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
-                else if (i == 2) GOVER_C_BIGCORE2_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
-                else if (i == 3) GOVER_C_BIGCORE3_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
-                else if (i == 4) GOVER_C_BIGCORE4_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
-                else if (i == 5) GOVER_C_BIGCORE5_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
-                else if (i == 6) GOVER_C_BIGCORE6_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
-                else if (i == 7) GOVER_C_BIGCORE7_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
-                else if (i == 8) GOVER_C_BIGCORE8_PATH = config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)];
+                GoverConfigPathBIG.push_back(config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)]);
+                
             }
             for (int i = 1; config[Mode]["GoverConfig"]["MAXCORE"].contains("Path" + to_string(i)); i++) {
-                if (i == 1) GOVER_C_MAXCORE1_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
-                else if (i == 2) GOVER_C_MAXCORE2_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
-                else if (i == 3) GOVER_C_MAXCORE3_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
-                else if (i == 4) GOVER_C_MAXCORE4_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
-                else if (i == 5) GOVER_C_MAXCORE5_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
-                else if (i == 6) GOVER_C_MAXCORE6_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
-                else if (i == 7) GOVER_C_MAXCORE7_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
-                else if (i == 8) GOVER_C_MAXCORE8_PATH = config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)];
+                GoverConfigPathMAX.push_back(config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)]);
             }
             file.close();
         }
@@ -285,30 +233,6 @@ public:
 
         cout << "************************************" << endl;
         
-        cout << "GOVER_C_MINCORE1: " << GOVER_C_MINCORE1 << endl;
-        cout << "GOVER_C_MIDCORE1: " << GOVER_C_MIDCORE1 << endl;
-        cout << "GOVER_C_BIGCORE1: " << GOVER_C_BIGCORE1 << endl;
-        cout << "GOVER_C_MAXCORE1: " << GOVER_C_MAXCORE1 << endl;
-        cout << "GOVER_C_MINCORE2: " << GOVER_C_MINCORE2 << endl;
-        cout << "GOVER_C_MIDCORE2: " << GOVER_C_MIDCORE2 << endl;
-        cout << "GOVER_C_BIGCORE2: " << GOVER_C_BIGCORE2 << endl;
-        cout << "GOVER_C_MAXCORE2: " << GOVER_C_MAXCORE2 << endl;
-        cout << "GOVER_C_MINCORE3: " << GOVER_C_MINCORE3 << endl;
-        cout << "GOVER_C_MIDCORE3: " << GOVER_C_MIDCORE3 << endl;
-        cout << "GOVER_C_BIGCORE3: " << GOVER_C_BIGCORE3 << endl;
-        cout << "GOVER_C_MAXCORE3: " << GOVER_C_MAXCORE3 << endl;
-        cout << "GOVER_C_MINCORE1_PATH: " << GOVER_C_MINCORE1_PATH << endl;
-        cout << "GOVER_C_MIDCORE1_PATH: " << GOVER_C_MIDCORE1_PATH << endl;
-        cout << "GOVER_C_BIGCORE1_PATH: " << GOVER_C_BIGCORE1_PATH << endl;
-        cout << "GOVER_C_MAXCORE1_PATH: " << GOVER_C_MAXCORE1_PATH << endl;
-        cout << "GOVER_C_MINCORE2_PATH: " << GOVER_C_MINCORE2_PATH << endl;
-        cout << "GOVER_C_MIDCORE2_PATH: " << GOVER_C_MIDCORE2_PATH << endl;
-        cout << "GOVER_C_BIGCORE2_PATH: " << GOVER_C_BIGCORE2_PATH << endl;
-        cout << "GOVER_C_MAXCORE2_PATH: " << GOVER_C_MAXCORE2_PATH << endl;
-        cout << "GOVER_C_MINCORE3_PATH: " << GOVER_C_MINCORE3_PATH << endl;
-        cout << "GOVER_C_MIDCORE3_PATH: " << GOVER_C_MIDCORE3_PATH << endl;
-        cout << "GOVER_C_BIGCORE3_PATH: " << GOVER_C_BIGCORE3_PATH << endl;
-        cout << "GOVER_C_MAXCORE3_PATH: " << GOVER_C_MAXCORE3_PATH << endl;
 
     }
 };
