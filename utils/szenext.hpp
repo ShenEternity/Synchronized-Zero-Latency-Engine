@@ -48,7 +48,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.5";
+    string SZE_VERSION = "4.6";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -175,16 +175,16 @@ public:
 
     void GOVERCONFIGPDMODS(){
         for (size_t s = 0; s < config.GoverConfigMIN.size(); s++) {
-            utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GoverConfigPathMIN[s]),config.GoverConfigPathMIN[s]);
+            utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GoverConfigPathMIN[s]),config.GoverConfigMIN[s]);
         }
         for (size_t s = 0; s < config.GoverConfigMID.size(); s++) {
-            utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GoverConfigPathMID[s]),config.GoverConfigPathMID[s]);
+            utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GoverConfigPathMID[s]),config.GoverConfigMID[s]);
         }
         for (size_t s = 0; s < config.GoverConfigBIG.size(); s++) {
-            utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GoverConfigPathBIG[s]),config.GoverConfigPathBIG[s]);
+            utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GoverConfigPathBIG[s]),config.GoverConfigBIG[s]);
         }
         for (size_t s = 0; s < config.GoverConfigMAX.size(); s++) {
-            utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GoverConfigPathMAX[s]),config.GoverConfigPathMAX[s]);
+            utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GoverConfigPathMAX[s]),config.GoverConfigMAX[s]);
         }
     }
 
