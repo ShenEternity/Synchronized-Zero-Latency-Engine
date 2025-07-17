@@ -53,13 +53,8 @@ int main(){
     sze3.join();
 
 
-/*     config.ReadName();
-    config.ReadPolicy();
-    config.ReadFreqConfig("performance");
-    config.ReadGoverConfig("performance");
-    config.ReadSetConfig();
-    config.ReadGoverConfigConfig("performance");
-    config.printConfig(); */
+/*     config.ReadSysConfig("fast");
+    config.print(); */
 }
 
 

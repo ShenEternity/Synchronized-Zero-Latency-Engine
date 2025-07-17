@@ -8,6 +8,7 @@
 #include "unistd.h"
 #include <chrono>
 #include <condition_variable>
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <math.h>
@@ -47,7 +48,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.4";
+    string SZE_VERSION = "4.5";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -103,8 +104,12 @@ public:
                 Mods = std::move(modes);
 
                 config.ReadGoverConfig(Mods);
+                config.ReadSysConfig(Mods);
                 GOVERPDMODS();
+                SYS();
             }
+            config.SysConfigPath.clear();
+            config.SysConfig.clear();
             if (Enadle_3) {
                 sem3.release();
             }else if (Enadle_1) {
@@ -125,6 +130,11 @@ public:
                 config.ReadGoverConfigConfig(Mods);
                 GOVERCONFIGPDMODS();
             }
+            config.GoverConfigMIN.clear();
+            config.GoverConfigMID.clear();
+            config.GoverConfigBIG.clear();
+            config.GoverConfigMAX.clear();
+
             if (Enadle_1) {
                 sem1.release();
             }else if (Enadle_2) {
@@ -164,16 +174,16 @@ public:
     }
 
     void GOVERCONFIGPDMODS(){
-        for (int s = 0; s < config.GOVERCONFIGMIN; s++) {
+        for (size_t s = 0; s < config.GoverConfigMIN.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GoverConfigPathMIN[s]),config.GoverConfigPathMIN[s]);
         }
-        for (int s = 0; s < config.GOVERCONFIGMID; s++) {
+        for (size_t s = 0; s < config.GoverConfigMID.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GoverConfigPathMID[s]),config.GoverConfigPathMID[s]);
         }
-        for (int s = 0; s < config.GOVERCONFIGBIG; s++) {
+        for (size_t s = 0; s < config.GoverConfigBIG.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GoverConfigPathBIG[s]),config.GoverConfigPathBIG[s]);
         }
-        for (int s = 0; s < config.GOVERCONFIGMAX; s++) {
+        for (size_t s = 0; s < config.GoverConfigMAX.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GoverConfigPathMAX[s]),config.GoverConfigPathMAX[s]);
         }
     }
@@ -194,6 +204,12 @@ public:
         utils.Writer("/dev/cpuset/system-background/cpus", config.CPUSET_System_Background);
         utils.Writer("/dev/cpuset/system/cpus", config.CPUSET_System);
         utils.Writer("/dev/cpuset/foreground/cpus", config.CPUSET_Foreground);
+    }
+
+    void SYS(){
+        for (size_t s = 0; s < config.SysConfigPath.size(); s++) {
+            utils.Writer(config.SysConfigPath[s],config.SysConfig[s]);
+        }
     }
 
 

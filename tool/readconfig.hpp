@@ -1,6 +1,7 @@
 #ifndef RCONFIG_HPP
 #define RCONFIG_HPP
 
+#include <cstddef>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
@@ -44,10 +45,9 @@ public:
     vector<string> GoverConfigPathBIG;
     vector<string> GoverConfigPathMAX;
 
-    int GOVERCONFIGMIN = 0;
-    int GOVERCONFIGMID = 0;
-    int GOVERCONFIGBIG = 0;
-    int GOVERCONFIGMAX = 0;
+    vector<string> SysConfigPath;
+    vector<string> SysConfig;
+
 
 
 
@@ -156,19 +156,15 @@ public:
             file >> config;
             for (int i = 1; config[Mode]["GoverConfig"]["MINCORE"].contains("Config" + to_string(i)) ; i++) {
                 GoverConfigMIN.push_back(config[Mode]["GoverConfig"]["MINCORE"]["Config" +  to_string(i)]);
-                GOVERCONFIGMIN ++;
             }
             for (int i = 1; config[Mode]["GoverConfig"]["MIDCORE"].contains("Config" + to_string(i)); i++) {
                 GoverConfigMID.push_back(config[Mode]["GoverConfig"]["MIDCORE"]["Config" +  to_string(i)]);
-                GOVERCONFIGMID ++;
             }
             for (int i = 1; config[Mode]["GoverConfig"]["BIGCORE"].contains("Config" + to_string(i)); i++) {
                 GoverConfigBIG.push_back(config[Mode]["GoverConfig"]["BIGCORE"]["Config" +  to_string(i)]);
-                GOVERCONFIGBIG ++;
             }
             for (int i = 1; config[Mode]["GoverConfig"]["MAXCORE"].contains("Config" + to_string(i)); i++) {
                 GoverConfigMAX.push_back(config[Mode]["GoverConfig"]["MAXCORE"]["Config" +  to_string(i)]);
-                GOVERCONFIGMAX ++;
             }
 
 
@@ -186,6 +182,20 @@ public:
                 GoverConfigPathMAX.push_back(config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)]);
             }
             file.close();
+        }
+    }
+
+    void ReadSysConfig(string Mode){
+        ifstream file(ConfigPath);
+        if (file.is_open()) {
+            json config;
+            file >> config;
+            for (int i = 1; config[Mode]["SYS"]["ConfigPath"].contains("path"+to_string(i)); i++) {
+                SysConfigPath.push_back(config[Mode]["SYS"]["ConfigPath"]["path"+to_string(i)]);
+            }
+            for (int i = 1; config[Mode]["SYS"]["Config"].contains("config"+to_string(i));i++) {
+                SysConfig.push_back(config[Mode]["SYS"]["Config"]["config"+to_string(i)]);
+            }
         }
     }
 
@@ -214,7 +224,7 @@ public:
     }
 
 
-    void printConfig() {
+/*     void printConfig() {
         cout << "Name: " << name << endl;
         cout << "Level: " << lv << endl;
         cout << "Output: " << Out << endl;
@@ -234,6 +244,13 @@ public:
         cout << "************************************" << endl;
         
 
+    } */
+
+    void print(){
+        for (size_t a = 0; a < SysConfigPath.size(); a++) {
+            cout << SysConfigPath[a] << endl;
+            cout << SysConfig[a] << endl;
+        }
     }
 };
 
