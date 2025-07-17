@@ -402,7 +402,7 @@
         "EAS":{                                                 <----  EAS字段
             "EAS_Enable":true                                   <----- 开关，打游戏建议关
         },
-        "SYS":{                                                                     <---- SYS字段 （说是sys，但是只要 selinux允许，想改哪里都行）
+        "SYS":{                                                                     <---- SYS字段 （说是sys，但是只要 selinux允许，想改哪里都行）【如果你不用的话，就把path1,config1删掉，其他的不要删】
             "ConfigPath":{
                 "path1":"/sys/devices/system/cpu/cpuidle/current_governor"          <---- 想要修改的文件路径
             },
