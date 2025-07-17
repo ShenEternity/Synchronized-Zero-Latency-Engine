@@ -2,20 +2,20 @@
 一个简单的调度
 
 
-## SZE_NEXT#4.4的配置写法
+## SZE_NEXT#4.5的配置写法
 
 ```json
 {
     "Name":{
         "name": "8100_MAX",
-        "lv": "4.4",
+        "lv": "Eternity-Mix",
         "Out": "ShenEternity"
     },
 
     "SetConfig":{
         "SetGover":true,
         "SetGoverConfig":true,
-        "OifaceAndJoyoset":true
+        "OifaceAndJoyose":true
     },
 
     "Policy":{
@@ -39,39 +39,39 @@
         "GoverConfig":{
             "MINCORE":{
                 "Path1":"up_rate_limit_us",
-                "Config1":1000,
+                "Config1":1800,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":50,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1400
             },
             "MIDCORE":{
                 "Path1":"up_rate_limit_us",
-                "Config1":1000,
+                "Config1":2000,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":55,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1400
             },
             "BIGCORE":{
                 "Path1":"up_rate_limit_us",
-                "Config1":1000,
+                "Config1":2000,
                 "Path2":"targe_loads",
-                "Config2":100,
+                "Config2":50,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1400
             }
         },
         "CPU_UCLAMP":{
-            "Background_cpu_uclamp_max":80,
+            "Background_cpu_uclamp_max":20,
             "Background_cpu_uclamp_min":0,
-            "Top_app_cpu_uclamp_max":80,
+            "Top_app_cpu_uclamp_max":50,
             "Top_app_cpu_uclamp_min":0,
-            "System-Background_cpu_uclamp_max":80,
+            "System-Background_cpu_uclamp_max":30,
             "System-Background_cpu_uclamp_min":0,
-            "System_cpu_uclamp_max":80,
+            "System_cpu_uclamp_max":40,
             "System_cpu_uclamp_min":0,
-            "Foreground_cpu_uclamp_max":80,
+            "Foreground_cpu_uclamp_max":30,
             "Foreground_cpu_uclamp_min":0
         },
         "CPUSET":{
@@ -83,6 +83,14 @@
         },
         "EAS":{
             "EAS_Enable":true
+        },
+        "SYS":{
+            "ConfigPath":{
+                "path1":"/sys/devices/system/cpu/cpuidle/current_governor"
+            },
+            "Config":{
+                "config1":"teo"
+            }
         }
 
     },
@@ -101,39 +109,39 @@
         "GoverConfig":{
             "MINCORE":{
                 "Path1":"up_rate_limit_us",
-                "Config1":1000,
+                "Config1":1500,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":70,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1200
             },
             "MIDCORE":{
                 "Path1":"up_rate_limit_us",
-                "Config1":1000,
+                "Config1":1500,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":75,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1200
             },
             "BIGCORE":{
                 "Path1":"up_rate_limit_us",
-                "Config1":1000,
+                "Config1":1600,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":75,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1200
             }
         },
         "CPU_UCLAMP":{
-            "Background_cpu_uclamp_max":100,
+            "Background_cpu_uclamp_max":70,
             "Background_cpu_uclamp_min":0,
-            "Top_app_cpu_uclamp_max":100,
+            "Top_app_cpu_uclamp_max":70,
             "Top_app_cpu_uclamp_min":0,
-            "System-Background_cpu_uclamp_max":100,
+            "System-Background_cpu_uclamp_max":70,
             "System-Background_cpu_uclamp_min":0,
-            "System_cpu_uclamp_max":100,
+            "System_cpu_uclamp_max":70,
             "System_cpu_uclamp_min":0,
-            "Foreground_cpu_uclamp_max":100,
+            "Foreground_cpu_uclamp_max":70,
             "Foreground_cpu_uclamp_min":0
         },
         "CPUSET":{
@@ -145,8 +153,15 @@
         },
         "EAS":{
             "EAS_Enable":true
+        },
+        "SYS":{
+            "ConfigPath":{
+                "path1":"/sys/devices/system/cpu/cpuidle/current_governor"
+            },
+            "Config":{
+                "config1":"teo"
+            }
         }
-
     },
 
 
@@ -166,37 +181,37 @@
                 "Path1":"up_rate_limit_us",
                 "Config1":1000,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":75,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1100
             },
             "MIDCORE":{
                 "Path1":"up_rate_limit_us",
                 "Config1":1000,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":70,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1100
             },
             "BIGCORE":{
                 "Path1":"up_rate_limit_us",
                 "Config1":1000,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":70,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1100
             }
         },
         "CPU_UCLAMP":{
-            "Background_cpu_uclamp_max":100,
+            "Background_cpu_uclamp_max":50,
             "Background_cpu_uclamp_min":0,
             "Top_app_cpu_uclamp_max":100,
             "Top_app_cpu_uclamp_min":0,
-            "System-Background_cpu_uclamp_max":100,
+            "System-Background_cpu_uclamp_max":60,
             "System-Background_cpu_uclamp_min":0,
-            "System_cpu_uclamp_max":100,
+            "System_cpu_uclamp_max":70,
             "System_cpu_uclamp_min":0,
-            "Foreground_cpu_uclamp_max":100,
+            "Foreground_cpu_uclamp_max":80,
             "Foreground_cpu_uclamp_min":0
         },
         "CPUSET":{
@@ -207,9 +222,16 @@
             "Foreground":"0-5"
         },
         "EAS":{
-            "EAS_Enable":true
+            "EAS_Enable":false
+        },
+        "SYS":{
+            "ConfigPath":{
+                "path1":"/sys/devices/system/cpu/cpuidle/current_governor"
+            },
+            "Config":{
+                "config1":"teo"
+            }
         }
-
     },
 
 
@@ -227,39 +249,39 @@
         "GoverConfig":{
             "MINCORE":{
                 "Path1":"up_rate_limit_us",
-                "Config1":1000,
+                "Config1":1100,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":80,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1200
             },
             "MIDCORE":{
                 "Path1":"",
-                "Config1":1000,
+                "Config1":1100,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":75,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1200
             },
             "BIGCORE":{
                 "Path1":"up_rate_limit_us",
-                "Config1":1000,
+                "Config1":1100,
                 "Path2":"target_loads",
-                "Config2":95,
+                "Config2":80,
                 "Path3":"down_rate_limit_us",
-                "Config3":700
+                "Config3":1000
             }
         },
        "CPU_UCLAMP":{
-            "Background_cpu_uclamp_max":100,
+            "Background_cpu_uclamp_max":40,
             "Background_cpu_uclamp_min":0,
             "Top_app_cpu_uclamp_max":100,
             "Top_app_cpu_uclamp_min":0,
-            "System-Background_cpu_uclamp_max":100,
+            "System-Background_cpu_uclamp_max":50,
             "System-Background_cpu_uclamp_min":0,
-            "System_cpu_uclamp_max":100,
+            "System_cpu_uclamp_max":60,
             "System_cpu_uclamp_min":0,
-            "Foreground_cpu_uclamp_max":100,
+            "Foreground_cpu_uclamp_max":70,
             "Foreground_cpu_uclamp_min":0
         },
         "CPUSET":{
@@ -270,7 +292,15 @@
             "Foreground":"0-5"
         },
         "EAS":{
-            "EAS_Enable":true
+            "EAS_Enable":false
+        },
+        "SYS":{
+            "ConfigPath":{
+                "path1":"/sys/devices/system/cpu/cpuidle/current_governor"
+            },
+            "Config":{
+                "config1":"teo"
+            }
         }
     }
 }
@@ -371,6 +401,14 @@
         }，
         "EAS":{                                                 <----  EAS字段
             "EAS_Enable":true                                   <----- 开关，打游戏建议关
+        },
+        "SYS":{                                                                     <---- SYS字段 （说是sys，但是只要 selinux允许，想改哪里都行）
+            "ConfigPath":{
+                "path1":"/sys/devices/system/cpu/cpuidle/current_governor"          <---- 想要修改的文件路径
+            },
+            "Config":{
+                "config1":"teo"                                                     <---- 想改的值（string类型，支持字符串，说白了 ，啥都能改）
+            }
         }
 
     },
