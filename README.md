@@ -8,7 +8,7 @@
 {
     "Name":{
         "name": "8100_MAX",
-        "lv": "Eternity-Mix",
+        "lv": "4.5",
         "Out": "ShenEternity"
     },
 
