@@ -20,7 +20,6 @@
 #include <sys/inotify.h> 
 using namespace std;
 
-#define CORE_COUNT 8
 class Utils{
 protected:
     const char * logpath = "/storage/emulated/0/Android/SZE_NEXT/log.txt";

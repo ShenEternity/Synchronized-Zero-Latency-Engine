@@ -9,6 +9,7 @@
 #include <chrono>
 #include <condition_variable>
 #include <cstddef>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <math.h>
@@ -48,7 +49,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.6";
+    string SZE_VERSION = "4.7";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -174,16 +175,16 @@ public:
     }
 
     void GOVERCONFIGPDMODS(){
-        for (size_t s = 0; s < config.GoverConfigMIN.size(); s++) {
+        for (size_t s = 1; s < config.GoverConfigMIN.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GoverConfigPathMIN[s]),config.GoverConfigMIN[s]);
         }
-        for (size_t s = 0; s < config.GoverConfigMID.size(); s++) {
+        for (size_t s = 1; s < config.GoverConfigMID.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GoverConfigPathMID[s]),config.GoverConfigMID[s]);
         }
-        for (size_t s = 0; s < config.GoverConfigBIG.size(); s++) {
+        for (size_t s = 1; s < config.GoverConfigBIG.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GoverConfigPathBIG[s]),config.GoverConfigBIG[s]);
         }
-        for (size_t s = 0; s < config.GoverConfigMAX.size(); s++) {
+        for (size_t s = 1; s < config.GoverConfigMAX.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GoverConfigPathMAX[s]),config.GoverConfigMAX[s]);
         }
     }
@@ -207,7 +208,7 @@ public:
     }
 
     void SYS(){
-        for (size_t s = 0; s < config.SysConfigPath.size(); s++) {
+        for (size_t s = 1; s < config.SysConfigPath.size(); s++) {
             utils.Writer(config.SysConfigPath[s],config.SysConfig[s]);
         }
     }
@@ -224,6 +225,14 @@ public:
         utils.log(("******调度配置：" + config.name).c_str());
         utils.log(("******配置版本：" + config.lv).c_str());
         utils.log(("******配置作者：" + config.Out).c_str());
+        if (config.lv != SZE_VERSION) {
+            utils.log("!!!!!!!!  配置版本与SZE_NEXT版本不一致，请检查！");
+            cout << "配置版本与SZE_NEXT版本不一致，请检查！" << endl;
+            exit(1);
+        }else {
+            utils.log("配置版本与SZE_NEXT版本一致");
+            utils.log("可以放心使用！");
+        }
         
     }
 
