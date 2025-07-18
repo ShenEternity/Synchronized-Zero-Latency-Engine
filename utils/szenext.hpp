@@ -49,7 +49,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.7";
+    string SZE_VERSION = "4.8";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -109,8 +109,6 @@ public:
                 GOVERPDMODS();
                 SYS();
             }
-            config.SysConfigPath.clear();
-            config.SysConfig.clear();
             if (Enadle_3) {
                 sem3.release();
             }else if (Enadle_1) {
@@ -131,11 +129,6 @@ public:
                 config.ReadGoverConfigConfig(Mods);
                 GOVERCONFIGPDMODS();
             }
-            config.GoverConfigMIN.clear();
-            config.GoverConfigMID.clear();
-            config.GoverConfigBIG.clear();
-            config.GoverConfigMAX.clear();
-
             if (Enadle_1) {
                 sem1.release();
             }else if (Enadle_2) {
@@ -175,16 +168,16 @@ public:
     }
 
     void GOVERCONFIGPDMODS(){
-        for (size_t s = 1; s < config.GoverConfigMIN.size(); s++) {
+        for (size_t s = 1; s < config.GoverConfigPathMIN.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy1, config.GOVER_MINCORE, config.GoverConfigPathMIN[s]),config.GoverConfigMIN[s]);
         }
-        for (size_t s = 1; s < config.GoverConfigMID.size(); s++) {
+        for (size_t s = 1; s < config.GoverConfigPathMID.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy2, config.GOVER_MIDCORE, config.GoverConfigPathMID[s]),config.GoverConfigMID[s]);
         }
-        for (size_t s = 1; s < config.GoverConfigBIG.size(); s++) {
+        for (size_t s = 1; s < config.GoverConfigPathBIG.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy3, config.GOVER_BIGCORE, config.GoverConfigPathBIG[s]),config.GoverConfigBIG[s]);
         }
-        for (size_t s = 1; s < config.GoverConfigMAX.size(); s++) {
+        for (size_t s = 1; s < config.GoverConfigPathMAX.size(); s++) {
             utils.Writer(GETGovernorPath(config.policy4, config.GOVER_MAXCORE, config.GoverConfigPathMAX[s]),config.GoverConfigMAX[s]);
         }
     }
@@ -203,7 +196,6 @@ public:
         utils.Writer("/dev/cpuset/background/cpus", config.CPUSET_Background);
         utils.Writer("/dev/cpuset/top-app/cpus", config.CPUSET_Top_app);
         utils.Writer("/dev/cpuset/system-background/cpus", config.CPUSET_System_Background);
-        utils.Writer("/dev/cpuset/system/cpus", config.CPUSET_System);
         utils.Writer("/dev/cpuset/foreground/cpus", config.CPUSET_Foreground);
     }
 

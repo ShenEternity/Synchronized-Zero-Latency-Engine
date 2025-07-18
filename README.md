@@ -8,7 +8,7 @@
 {
     "Name":{
         "name": "8100_MAX",
-        "lv": "4.7",
+        "lv": "4.8",
         "Out": "ShenEternity"
     },
 
@@ -78,7 +78,6 @@
             "Background":"0-3",
             "Top_app":"0-7",
             "System-Background":"0-3",
-            "System":"0-3",
             "Foreground":"0-6"
         },
         "EAS":{
@@ -148,7 +147,6 @@
             "Background":"0-3",
             "Top_app":"0-7",
             "System-Background":"0-3",
-            "System":"0-3",
             "Foreground":"0-6"
         },
         "EAS":{
@@ -218,7 +216,6 @@
             "Background":"0-2",
             "Top_app":"0-7",
             "System-Background":"0-3",
-            "System":"0-3",
             "Foreground":"0-5"
         },
         "EAS":{
@@ -288,7 +285,6 @@
             "Background":"0-1",
             "Top_app":"0-7",
             "System-Background":"0-2",
-            "System":"0-3",
             "Foreground":"0-5"
         },
         "EAS":{
@@ -396,7 +392,6 @@
             "Background":"0-3",                                 <----  后台使用的cpu核心数
             "Top_app":"0-7",                                    <----  顶层使用的cpu核心数
             "System-Background":"0-3",                          <----  系统后台使用的cpu核心数
-            "System":"0-3",                                     <----  系统使用的cpu核心数
             "Foreground":"0-6"                                  <----  前台使用的cpu核心数
         }，
         "EAS":{                                                 <----  EAS字段

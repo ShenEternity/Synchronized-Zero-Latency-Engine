@@ -34,7 +34,7 @@ public:
         F_C_UCLAMP_MAX, F_C_UCLAMP_MIN;
 
     
-    string CPUSET_Background, CPUSET_Top_app, CPUSET_System_Background, CPUSET_System, CPUSET_Foreground;
+    string CPUSET_Background, CPUSET_Top_app, CPUSET_System_Background, CPUSET_Foreground;
 
     vector<int> GoverConfigMIN;
     vector<int> GoverConfigMID;
@@ -176,7 +176,6 @@ public:
             }
             for (int i = 1; config[Mode]["GoverConfig"]["BIGCORE"].contains("Path" + to_string(i)); i++) {
                 GoverConfigPathBIG.push_back(config[Mode]["GoverConfig"]["BIGCORE"]["Path" + to_string(i)]);
-                
             }
             for (int i = 1; config[Mode]["GoverConfig"]["MAXCORE"].contains("Path" + to_string(i)); i++) {
                 GoverConfigPathMAX.push_back(config[Mode]["GoverConfig"]["MAXCORE"]["Path" + to_string(i)]);
@@ -217,7 +216,6 @@ public:
             CPUSET_Background = config[Mode]["CPUSET"]["Background"];
             CPUSET_Top_app = config[Mode]["CPUSET"]["Top_app"];
             CPUSET_System_Background = config[Mode]["CPUSET"]["System-Background"];
-            CPUSET_System = config[Mode]["CPUSET"]["System"];
             CPUSET_Foreground = config[Mode]["CPUSET"]["Foreground"];
             file.close();
         }

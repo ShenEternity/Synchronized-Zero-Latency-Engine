@@ -46,20 +46,15 @@ public:
     }
 
     void Writer(const string path, int con){
-        struct stat info;
-        if (stat(path.c_str(), &info) != 0 || S_ISDIR(info.st_mode)) {
-            return;
+        int fd = open(path.c_str(), O_WRONLY);
+        if (fd < 0) {
+            chmod(path.c_str(), 0666);
+            fd = open(path.c_str(), O_WRONLY);
         }
-        FILE* file = fopen(path.c_str(), "w");
-        if (!file)
-        {
-            chmod(path.c_str(),0666);
-            file = fopen(path.c_str(), "w");
-        }
-        
-        fprintf(file, "%d", con);
-        fclose(file);
-        chmod(path.c_str(),0444);
+        char temp[15];
+        auto len = snprintf(temp, sizeof(temp), "%d", con);
+        write(fd, temp, len);
+        chmod(path.c_str(), 0444);
     }
 
     void clearLog() {
@@ -72,17 +67,12 @@ public:
     }
 
     void Writer(const string path, const string str) {
-        struct stat info;
-        if (stat(path.c_str(), &info) != 0 || S_ISDIR(info.st_mode)) {
-            return;
-        }
-        FILE* file = fopen(path.c_str(), "w");
-        if (!file) {
+        int fd = open(path.c_str(), O_WRONLY);
+        if (fd < 0) {
             chmod(path.c_str(), 0666);
-            file = fopen(path.c_str(), "w");
+            fd = open(path.c_str(), O_WRONLY);
         }
-        fprintf(file, "%s", str.c_str());
-        fclose(file);
+        write(fd, str.c_str(), str.size());
         chmod(path.c_str(), 0444);
     }
 
