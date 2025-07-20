@@ -12,6 +12,11 @@
         "Out": "ShenEternity"
     },
 
+    "Log":{
+        "Debug":false
+    },
+
+
     "SetConfig":{
         "SetGover":true,
         "SetGoverConfig":true,
@@ -407,3 +412,8 @@
         }
 
     },
+### Debug (找问题用的，一般不开)
+    "Log":{
+        "Debug":false
+    },
+

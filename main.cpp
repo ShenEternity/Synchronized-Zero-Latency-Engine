@@ -19,6 +19,7 @@ int main(){
     utils.clearLog();
     sze.init();
     config.ReadSetConfig();
+    config.ReadLogConfig();
     bool Enadle_n1 = true;
     bool Enadle_n2 = config.SetGover;
     bool Enadle_n3 = config.SetGoverConfig;

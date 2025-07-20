@@ -21,7 +21,7 @@ class Rconfig{
 public:
     const char* ConfigPath = "/storage/emulated/0/Android/SZE_NEXT/config.json";
     string name, lv, Out;
-    bool SetGoverConfig,SetGover,OifaceAndJoyose;
+    bool SetGoverConfig,SetGover,OifaceAndJoyose,Debuglog;
     Utils utils;
 
     string policy1,policy2,policy3,policy4;
@@ -69,11 +69,25 @@ public:
         }
     }
 
+    void ReadLogConfig(){
+        ifstream file(ConfigPath);
+        if(file.is_open()){
+            json config;
+            file >> config;
+            Debuglog = config["Log"]["Debug"];
+            file.close();
+        }
+        else {
+            utils.log("配置文件无法打开");
+        }
+    }
+
     void ReadSetConfig(){
         ifstream file(ConfigPath);
         if(file.is_open()){
             json config;
             file >> config;
+            
             SetGoverConfig = config["SetConfig"]["SetGoverConfig"];
             SetGover = config["SetConfig"]["SetGover"];
             OifaceAndJoyose = config["SetConfig"]["OifaceAndJoyose"];

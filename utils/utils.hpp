@@ -18,13 +18,16 @@
 #include <mutex>
 #include <sys/stat.h>
 #include <sys/inotify.h> 
+
+
 using namespace std;
 
 class Utils{
 protected:
     const char * logpath = "/storage/emulated/0/Android/SZE_NEXT/log.txt";
-
+    
 public:
+    bool Debug = true;
     void log(const char* message){
         time_t now = time(nullptr);
         tm* localtm = localtime(&now);
@@ -45,7 +48,7 @@ public:
         }
     }
 
-    void Writer(const string path, int con){
+    void Writer(const string path, int con) {
         int fd = open(path.c_str(), O_WRONLY);
         if (fd < 0) {
             chmod(path.c_str(), 0666);
@@ -53,7 +56,15 @@ public:
         }
         char temp[15];
         auto len = snprintf(temp, sizeof(temp), "%d", con);
-        write(fd, temp, len);
+        int de = write(fd, temp, len);
+        if (Debug) {
+            log(("DEBUG: 写入" + to_string(con) + "到文件: " + path).c_str());
+            if (de < 0) {
+                log(("ERROR: 无法写入" + to_string(con) + "到文件: " + path).c_str());
+            }else {
+                log(("INFO: 成功写入" + to_string(con) + "到文件: " + path).c_str());
+            }
+        }
         chmod(path.c_str(), 0444);
     }
 
@@ -72,7 +83,15 @@ public:
             chmod(path.c_str(), 0666);
             fd = open(path.c_str(), O_WRONLY);
         }
-        write(fd, str.c_str(), str.size());
+        int de = write(fd, str.c_str(), str.size());
+        if (Debug) {
+            log(("DEBUG: 写入" + str + "到文件: " + path).c_str());
+            if (de < 0) {
+                log(("ERROR: 无法写入" + str + "到文件: " + path).c_str());
+            }else {
+                log(("INFO: 成功写入" + str + "到文件: " + path).c_str());
+            }
+        }
         chmod(path.c_str(), 0444);
     }
 

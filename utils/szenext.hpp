@@ -49,7 +49,7 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.8";
+    string SZE_VERSION = "4.9";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
@@ -224,6 +224,15 @@ public:
         }else {
             utils.log("配置版本与SZE_NEXT版本一致");
             utils.log("可以放心使用！");
+        }
+        config.ReadLogConfig();
+        if (config.Debuglog) {
+            utils.Debug = true;
+            utils.log("调试日志已开启");
+        } else {
+            utils.Debug = false;
+            utils.log("调试日志未开启");
+        
         }
         
     }
