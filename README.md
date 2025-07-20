@@ -2,13 +2,13 @@
 一个简单的调度
 
 
-## SZE_NEXT#4.8的配置写法
+## SZE_NEXT#4.9的配置写法
 
 ```json
 {
     "Name":{
         "name": "8100_MAX",
-        "lv": "4.8",
+        "lv": "4.9",
         "Out": "ShenEternity"
     },
 
