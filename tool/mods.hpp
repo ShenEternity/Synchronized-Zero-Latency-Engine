@@ -1,7 +1,6 @@
 #ifndef MODS_HPP
 #define MODS_HPP
 
-#include <iostream>
 #include <fstream>
 using namespace std;
 class MODS {

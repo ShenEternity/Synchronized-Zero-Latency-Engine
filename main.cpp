@@ -1,12 +1,8 @@
 #include "tool/mods.hpp"
 #include "tool/readconfig.hpp"
 #include "utils/szenext.hpp"
-#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
-#include <fstream>
-#include <iostream>
-#include <string>
 #include <sys/inotify.h>
 #include <thread>
 #include <unistd.h>

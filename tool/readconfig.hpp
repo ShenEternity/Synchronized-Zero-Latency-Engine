@@ -2,10 +2,8 @@
 #define RCONFIG_HPP
 
 #include <cstddef>
-#include <cstdint>
 #include <fstream>
 #include <iostream>
-#include <memory>
 #include <string>
 #include <unistd.h>
 #include <vector>
@@ -21,7 +19,7 @@ class Rconfig{
 public:
     const char* ConfigPath = "/storage/emulated/0/Android/SZE_NEXT/config.json";
     string name, lv, Out;
-    bool SetGoverConfig,SetGover,OifaceAndJoyose,Debuglog;
+    bool SetGoverConfig, SetGover, OifaceAndJoyose, Debuglog, Uclamp, CpuSet;
     Utils utils;
 
     string policy1,policy2,policy3,policy4;
@@ -33,7 +31,8 @@ public:
         S_BACK_C_UCLAMP_MAX, S_BACK_C_UCLAMP_MIN, SYS_C_UCLAMP_MAX, SYS_C_UCLAMP_MIN,
         F_C_UCLAMP_MAX, F_C_UCLAMP_MIN;
 
-    
+    int Sched_wakeup_granularity_ns, Sched_migration_cost_ns;
+
     string CPUSET_Background, CPUSET_Top_app, CPUSET_System_Background, CPUSET_Foreground;
 
     vector<int> GoverConfigMIN;
@@ -51,7 +50,7 @@ public:
 
 
 
-    bool EAS_Enable;
+    bool EAS_Enable, Feas_Enable;
 
     void ReadName(){
         ifstream file(ConfigPath);
@@ -68,6 +67,8 @@ public:
             return;
         }
     }
+
+
 
     void ReadLogConfig(){
         ifstream file(ConfigPath);
@@ -87,10 +88,11 @@ public:
         if(file.is_open()){
             json config;
             file >> config;
-            
             SetGoverConfig = config["SetConfig"]["SetGoverConfig"];
             SetGover = config["SetConfig"]["SetGover"];
             OifaceAndJoyose = config["SetConfig"]["OifaceAndJoyose"];
+            Uclamp = config["SetConfig"]["Uclmap"];
+            CpuSet = config["SetConfig"]["CpuSet"];
             file.close();
         }
         else {
@@ -134,6 +136,9 @@ public:
                 FREQ_MAXCORE = config[Mode]["FREQ"]["MAXCORE"];
             }
             EAS_Enable = config[Mode]["EAS"]["EAS_Enable"];
+            if (config[Mode]["EAS"].contains("Feas_Enable")) {
+                Feas_Enable = config[Mode]["EAS"]["Feas_Enable"];
+            }
             file.close();
         }
         else {
@@ -213,10 +218,12 @@ public:
     }
 
     void ReadUclamp(string Mode){
+        ReadSetConfig();
         ifstream file (ConfigPath);
         if (file.is_open()) {
             json config;
             file >> config;
+            if (!Uclamp) return;
             BACK_C_UCLAMP_MAX = config[Mode]["CPU_UCLAMP"]["Background_cpu_uclamp_max"];
             BACK_C_UCLAMP_MIN = config[Mode]["CPU_UCLAMP"]["Background_cpu_uclamp_min"];
             TOP_APP_C_UCLAMP_MAX = config[Mode]["CPU_UCLAMP"]["Top_app_cpu_uclamp_max"];
@@ -231,6 +238,31 @@ public:
             CPUSET_Top_app = config[Mode]["CPUSET"]["Top_app"];
             CPUSET_System_Background = config[Mode]["CPUSET"]["System-Background"];
             CPUSET_Foreground = config[Mode]["CPUSET"]["Foreground"];
+            file.close();
+        }
+    }
+
+    void ReadCpuSet(string Mode){
+        ReadSetConfig();
+        ifstream file (ConfigPath);
+        if (file.is_open()) {
+            json config;
+            file >> config;
+            if (!CpuSet) return;
+            CPUSET_Top_app = config[Mode]["CPUSET"]["Top_app"];
+            CPUSET_System_Background = config[Mode]["CPUSET"]["System-Background"];
+            CPUSET_Foreground = config[Mode]["CPUSET"]["Foreground"];
+            file.close();
+        }
+    }
+
+    void ReadCFS(string Mode){
+        ifstream file (ConfigPath);
+        if(file.is_open()){
+            json config;
+            file >> config;
+            Sched_wakeup_granularity_ns = config[Mode]["CFS"]["Sched_migration_cost_ns"];
+            Sched_migration_cost_ns = config[Mode]["CFS"]["Sched_migration_cost_ns"];
             file.close();
         }
     }

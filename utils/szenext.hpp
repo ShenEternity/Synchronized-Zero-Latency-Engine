@@ -6,7 +6,7 @@
 #include "../tool/mods.hpp"
 #include "utils.hpp"
 #include "unistd.h"
-#include <chrono>
+#include <cmath>
 #include <condition_variable>
 #include <cstddef>
 #include <cstdlib>
@@ -16,8 +16,6 @@
 #include <mutex>
 #include <string>
 #include <sys/inotify.h>
-#include <thread>
-#include <atomic>
 using namespace std;
 
 class Semaphore{
@@ -49,12 +47,13 @@ public:
     Rconfig config;
     MODS mods;
 
-    string SZE_VERSION = "4.9";
+    string SZE_VERSION = "5.0";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
 
     int OC;
+    int cfs;
     const char * configfile = "/storage/emulated/0/Android/SZE_NEXT/config.txt";
 
     int fd = inotify_init();
@@ -64,6 +63,7 @@ public:
 
     void FREQ(bool Enadle_2,bool Eandle_3){
     config.ReadPolicy();
+    config.ReadSetConfig();
     while(1){
         sem1.acquire();
         int len = read(fd, buff, sizeof(buff));
@@ -76,12 +76,19 @@ public:
                     Mods = std::move(modes);
 
                     config.ReadFreqConfig(Mods);
-                    config.ReadUclamp(Mods);
                     FREQPDMODS();
-                    UCLAMP();
+                    if (config.Uclamp) {
+                        config.ReadUclamp(Mods);
+                        UCLAMP();
+                    }
+                    if (config.CpuSet) {
+                        config.ReadCpuSet(Mods);
+                        CpuSet();
+                    }
                     if (Mods != Mtemp) {
                         Mtemp = Mods;
-                        utils.log(("模式更新："+ Mods).c_str());
+                        utils.log("INFO: CFS调整完毕");
+                        utils.log(("INFO: 模式更新："+ Mods).c_str());
                     }
                 }
             }
@@ -103,11 +110,12 @@ public:
             string modes;
             while (getline(file,modes)) {
                 Mods = std::move(modes);
-
                 config.ReadGoverConfig(Mods);
-                config.ReadSysConfig(Mods);
                 GOVERPDMODS();
+                config.ReadSysConfig(Mods);
                 SYS();
+                config.ReadCFS(Mods);
+                CFS();
             }
             if (Enadle_3) {
                 sem3.release();
@@ -158,6 +166,7 @@ public:
         utils.Writer(GETFreqPath(config.policy3), config.FREQ_BIGCORE);
         utils.Writer(GETFreqPath(config.policy4), config.FREQ_MAXCORE);
         utils.Writer("/proc/sys/kernel/sched_energy_aware",config.EAS_Enable);
+        utils.Writer("/sys/module/mtk_fpsgo/parameters/perfmgr_enable", config.Feas_Enable);
     }
 
     void GOVERPDMODS(){
@@ -183,7 +192,8 @@ public:
     }
 
     void UCLAMP(){
-        utils.Writer("/dev/cpuctl/background/cpu.uclamp.max", config.BACK_C_UCLAMP_MAX);
+        int a = utils.Writer("/dev/cpuctl/background/cpu.uclamp.max", config.BACK_C_UCLAMP_MAX);
+        if (a < 0) return; 
         utils.Writer("/dev/cpuctl/background/cpu.uclamp.min", config.BACK_C_UCLAMP_MIN);
         utils.Writer("/dev/cpuctl/top-app/cpu.uclamp.max", config.TOP_APP_C_UCLAMP_MAX);
         utils.Writer("/dev/cpuctl/top-app/cpu.uclamp.min", config.TOP_APP_C_UCLAMP_MIN);
@@ -193,6 +203,9 @@ public:
         utils.Writer("/dev/cpuctl/system/cpu.uclamp.min", config.SYS_C_UCLAMP_MIN);
         utils.Writer("/dev/cpuctl/foreground/cpu.uclamp.max", config.F_C_UCLAMP_MAX);
         utils.Writer("/dev/cpuctl/foreground/cpu.uclamp.min", config.F_C_UCLAMP_MIN);
+    }
+
+    void CpuSet(){
         utils.Writer("/dev/cpuset/background/cpus", config.CPUSET_Background);
         utils.Writer("/dev/cpuset/top-app/cpus", config.CPUSET_Top_app);
         utils.Writer("/dev/cpuset/system-background/cpus", config.CPUSET_System_Background);
@@ -202,6 +215,14 @@ public:
     void SYS(){
         for (size_t s = 1; s < config.SysConfigPath.size(); s++) {
             utils.Writer(config.SysConfigPath[s],config.SysConfig[s]);
+        }
+    }
+
+    void CFS(){
+        utils.Writer("/proc/sys/kernel/sched_wakeup_granularity_ns", config.Sched_wakeup_granularity_ns);
+        int a = utils.Writer("/proc/sys/kernel/sched_migration_cost_ns", config.Sched_migration_cost_ns);
+        if (a < 0) {
+            utils.log("ERROR: CFS调整失败");
         }
     }
 
@@ -218,20 +239,20 @@ public:
         utils.log(("******配置版本：" + config.lv).c_str());
         utils.log(("******配置作者：" + config.Out).c_str());
         if (config.lv != SZE_VERSION) {
-            utils.log("!!!!!!!!  配置版本与SZE_NEXT版本不一致，请检查！");
-            cout << "配置版本与SZE_NEXT版本不一致，请检查！" << endl;
+            utils.log("WARN: !!!!!!!!  配置版本与SZE_NEXT版本不一致，请检查！");
+            cout << "WARN: 配置版本与SZE_NEXT版本不一致，请检查！" << endl;
             exit(1);
         }else {
-            utils.log("配置版本与SZE_NEXT版本一致");
-            utils.log("可以放心使用！");
+            utils.log("INFO: 配置版本与SZE_NEXT版本一致");
+            utils.log("INFO: 可以放心使用！");
         }
         config.ReadLogConfig();
         if (config.Debuglog) {
             utils.Debug = true;
-            utils.log("调试日志已开启");
+            utils.log("WARN: 调试日志已开启");
         } else {
             utils.Debug = false;
-            utils.log("调试日志未开启");
+            utils.log("WARN: 调试日志未开启");
         
         }
         
