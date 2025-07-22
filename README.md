@@ -2,13 +2,13 @@
 一个简单的调度
 
 
-## SZE_NEXT#4.9的配置写法
+## SZE_NEXT#5.0的配置写法
 
 ```json
 {
     "Name":{
         "name": "8100_MAX",
-        "lv": "4.9",
+        "lv": "5.0",
         "Out": "ShenEternity"
     },
 
@@ -16,11 +16,12 @@
         "Debug":false
     },
 
-
     "SetConfig":{
         "SetGover":true,
+        "CpuSet":true,
         "SetGoverConfig":true,
-        "OifaceAndJoyose":true
+        "OifaceAndJoyose":true,
+        "Uclmap":true
     },
 
     "Policy":{
@@ -60,7 +61,7 @@
             },
             "BIGCORE":{
                 "Path1":"up_rate_limit_us",
-                "Config1":2000,
+                "Config1":2400,
                 "Path2":"targe_loads",
                 "Config2":50,
                 "Path3":"down_rate_limit_us",
@@ -86,7 +87,12 @@
             "Foreground":"0-6"
         },
         "EAS":{
-            "EAS_Enable":true
+            "EAS_Enable":true,
+            "Feas_Enable":true
+        },
+        "CFS":{
+            "Sched_wakeup_granularity_ns":5000000,
+            "Sched_migration_cost_ns":2000000
         },
         "SYS":{
             "ConfigPath":{
@@ -155,7 +161,12 @@
             "Foreground":"0-6"
         },
         "EAS":{
-            "EAS_Enable":true
+            "EAS_Enable":true,
+            "Feas_Enable":true
+        },
+        "CFS":{
+            "Sched_wakeup_granularity_ns":5000000,
+            "Sched_migration_cost_ns":2000000
         },
         "SYS":{
             "ConfigPath":{
@@ -224,7 +235,12 @@
             "Foreground":"0-5"
         },
         "EAS":{
-            "EAS_Enable":false
+            "EAS_Enable":false,
+            "Feas_Enable":true
+        },
+        "CFS":{
+            "Sched_wakeup_granularity_ns":2000000,
+            "Sched_migration_cost_ns":800000
         },
         "SYS":{
             "ConfigPath":{
@@ -258,7 +274,7 @@
                 "Config3":1200
             },
             "MIDCORE":{
-                "Path1":"",
+                "Path1":"up_rate_limit_us",
                 "Config1":1100,
                 "Path2":"target_loads",
                 "Config2":75,
@@ -293,7 +309,12 @@
             "Foreground":"0-5"
         },
         "EAS":{
-            "EAS_Enable":false
+            "EAS_Enable":false,
+            
+        },
+        "CFS":{
+            "Sched_wakeup_granularity_ns":1000000,
+            "Sched_migration_cost_ns":500000
         },
         "SYS":{
             "ConfigPath":{
@@ -310,7 +331,7 @@
 ### 第一块（Name）：
     "Name":{
         "name": "8100_MAX",   <---- 配置的名字
-        "lv": "4.7",          <---- 配置的版本   <---除了版本，其他都可以随便改
+        "lv": "5.0",          <---- 配置的版本   <---除了版本，其他都可以随便改
         "Out": "ShenEternity" <---- 配在的作者
     },
 
@@ -400,7 +421,12 @@
             "Foreground":"0-6"                                  <----  前台使用的cpu核心数
         }，
         "EAS":{                                                 <----  EAS字段
-            "EAS_Enable":true                                   <----- 开关，打游戏建议关
+            "EAS_Enable":true,                                  <---- 开关，打游戏建议关
+            "Feas_Enable":true                                  <---- 小米Feas 开关
+        },
+        "CFS":{
+            "Sched_wakeup_granularity_ns":5000000,              <---- 唤醒抢占
+            "Sched_migration_cost_ns":2000000                   <---- 进程迁移      <---- 两个都是越高越省电，但是太高也不好
         },
         "SYS":{                                                                     <---- SYS字段 （说是sys，但是只要 selinux允许，想改哪里都行）【如果你不用的话，就把path1,config1删掉，其他的不要删】
             "ConfigPath":{
