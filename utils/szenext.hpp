@@ -48,12 +48,13 @@ public:
     MODS mods;
 
     string SZE_VERSION = "5.0";
+    string SZE_SMALL_VERSION = ".1";
     Semaphore sem1{1};
     Semaphore sem2{0};
     Semaphore sem3{0};
 
     int OC;
-    int cfs;
+    int cfs, cfs_de;
     const char * configfile = "/storage/emulated/0/Android/SZE_NEXT/config.txt";
 
     int fd = inotify_init();
@@ -87,7 +88,9 @@ public:
                     }
                     if (Mods != Mtemp) {
                         Mtemp = Mods;
-                        utils.log("INFO: CFS调整完毕");
+                        if(cfs_de){
+                            utils.log("INFO: CFS调整完毕");
+                        }
                         utils.log(("INFO: 模式更新："+ Mods).c_str());
                     }
                 }
@@ -193,7 +196,11 @@ public:
 
     void UCLAMP(){
         int a = utils.Writer("/dev/cpuctl/background/cpu.uclamp.max", config.BACK_C_UCLAMP_MAX);
-        if (a < 0) return; 
+        if (a < 0 &&  utils.Debug) {
+            utils.log("ERROR: uclamp 无法修改");
+            return;
+        }
+        if (a < 0) return;
         utils.Writer("/dev/cpuctl/background/cpu.uclamp.min", config.BACK_C_UCLAMP_MIN);
         utils.Writer("/dev/cpuctl/top-app/cpu.uclamp.max", config.TOP_APP_C_UCLAMP_MAX);
         utils.Writer("/dev/cpuctl/top-app/cpu.uclamp.min", config.TOP_APP_C_UCLAMP_MIN);
@@ -220,8 +227,8 @@ public:
 
     void CFS(){
         utils.Writer("/proc/sys/kernel/sched_wakeup_granularity_ns", config.Sched_wakeup_granularity_ns);
-        int a = utils.Writer("/proc/sys/kernel/sched_migration_cost_ns", config.Sched_migration_cost_ns);
-        if (a < 0) {
+        cfs_de = utils.Writer("/proc/sys/kernel/sched_migration_cost_ns", config.Sched_migration_cost_ns);
+        if (cfs_de < 0 && utils.Debug) {
             utils.log("ERROR: CFS调整失败");
         }
     }
@@ -233,17 +240,17 @@ public:
         utils.my_log("***********************************************");
         utils.my_log("ShenEternity祝你使用愉快！\n");
         utils.log("SZE_NEXT已加载");
-        utils.log(("******SZE_NEXT版本：" + SZE_VERSION).c_str());
+        utils.log(("******SZE_NEXT版本：" + SZE_VERSION + SZE_SMALL_VERSION).c_str());
         config.ReadName();
         utils.log(("******调度配置：" + config.name).c_str());
         utils.log(("******配置版本：" + config.lv).c_str());
         utils.log(("******配置作者：" + config.Out).c_str());
         if (config.lv != SZE_VERSION) {
-            utils.log("WARN: !!!!!!!!  配置版本与SZE_NEXT版本不一致，请检查！");
-            cout << "WARN: 配置版本与SZE_NEXT版本不一致，请检查！" << endl;
+            utils.log("WARN: !!!!!!!!  配置版本与SZE_NEXT大版本不一致，请检查！");
+            cout << "WARN: 配置版本与SZE_NEXT大版本不一致，请检查！" << endl;
             exit(1);
         }else {
-            utils.log("INFO: 配置版本与SZE_NEXT版本一致");
+            utils.log("INFO: 配置版本与SZE_NEXT大版本一致");
             utils.log("INFO: 可以放心使用！");
         }
         config.ReadLogConfig();
